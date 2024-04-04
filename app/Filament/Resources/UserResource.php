@@ -70,10 +70,15 @@ class UserResource extends Resource
                     'sm' => 1,
                     'xl' => 12,
                 ])->schema([
-                    Forms\Components\Select::make('roles')->multiple()->relationship('roles', 'name')->columnSpan([
-                        'sm' => 1,
-                        'xl' => 12,
-                    ]),
+                    Forms\Components\Select::make('roles')
+                        ->relationship('roles', 'name')
+                        ->multiple()
+                        ->preload()
+                        ->searchable()
+                        ->columnSpan([
+                            'sm' => 1,
+                            'xl' => 12,
+                        ]),
                 ]),
             ]);
     }

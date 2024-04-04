@@ -13,6 +13,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -74,18 +75,39 @@ class ArticleResource extends Resource
                 'sm' => 2,
                 'xl' => 8,
             ]),
-            Section::make()
-                ->schema([
-                    Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true)->readOnlyOn('create'),
-                    Forms\Components\DatePicker::make('published_at'),
-                    Forms\Components\FileUpload::make('image')->image()->imageEditor()->imageEditorMode(2)
-                        ->disk('public')->directory($module)
-                        ->optimize('webp')
-                        ->nullable(),
-                ])->columnSpan([
+            Section::make()->columns([
+                'sm' => 2,
+                'xl' => 12,
+            ])->schema([
+                Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true)->readOnlyOn('create')->columnSpan([
                     'sm' => 2,
-                    'xl' => 4,
+                    'xl' => 12,
                 ]),
+                Forms\Components\DatePicker::make('published_at')->columnSpan([
+                    'sm' => 2,
+                    'xl' => 12,
+                ]),
+                Forms\Components\FileUpload::make('image')->image()->imageEditor()->imageEditorMode(2)
+                    ->disk('public')->directory($module)
+                    ->optimize('webp')
+                    ->nullable()->columnSpan([
+                        'sm' => 2,
+                        'xl' => 12,
+                    ]),
+                Forms\Components\Placeholder::make('created_at')->visibleOn('edit')
+                    ->content(fn(Article $record): string => $record->created_at->toDayDateTimeString())->columnSpan([
+                        'sm' => 2,
+                        'xl' => 12,
+                    ]),
+                Forms\Components\Placeholder::make('updated_at')->visibleOn('edit')
+                    ->content(fn(Article $record): string => $record->created_at->toDayDateTimeString())->columnSpan([
+                        'sm' => 2,
+                        'xl' => 12,
+                    ])
+            ])->columnSpan([
+                'sm' => 2,
+                'xl' => 4,
+            ]),
             // Components
             Forms\Components\Builder::make('components')
                 ->label('Content')
@@ -195,6 +217,7 @@ class ArticleResource extends Resource
 
     public static function table(Table $table): Table
     {
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')->searchable()->sortable(),
@@ -238,6 +261,9 @@ class ArticleResource extends Resource
         ];
     }
 
+    /**
+     * @return array|PageRegistration[]
+     */
     public static function getPages(): array
     {
         return [
@@ -247,6 +273,9 @@ class ArticleResource extends Resource
         ];
     }
 
+    /**
+     * @return DatabaseBuilder
+     */
     public static function getEloquentQuery(): DatabaseBuilder
     {
         return parent::getEloquentQuery()

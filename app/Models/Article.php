@@ -14,6 +14,9 @@ class Article extends Model
     protected $casts = [
         'components' => 'json',
         'tags' => 'json',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime'
     ];
 
     /**
