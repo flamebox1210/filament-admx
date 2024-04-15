@@ -18,6 +18,14 @@ class User extends Authenticatable
     use HasRoles, HasPanelShield;
 
     /**
+     * @var string[]
+     */
+    protected $casts = [
+        'deleted_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>

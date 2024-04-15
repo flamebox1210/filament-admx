@@ -10,8 +10,10 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
+use Filament\SpatieLaravelTranslatablePlugin;
 use Filament\Widgets;
+use Hasnayeen\Themes\Http\Middleware\SetTheme;
+use Hasnayeen\Themes\ThemesPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -30,7 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->favicon(asset('favicon.ico'))
+            ->favicon(asset('favicon.svg'))
             ->brandName('Admin Panel')
             ->brandLogo(asset('logo.svg'))
             ->brandLogoHeight('2rem')
@@ -38,16 +40,16 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             //->passwordReset()
             ->profile(isSimple: false)
-            ->colors([
+            /*->colors([
                 'gray' => Color::Zinc,
                 'primary' => Color::Indigo,
                 'info' => Color::Blue,
                 'success' => Color::Green,
                 'warning' => Color::Amber,
                 'danger' => Color::Rose,
-            ])
+            ])*/
             ->plugins([
-                FilamentProgressbarPlugin::make()->color('#6366f1'),
+                FilamentProgressbarPlugin::make()->color('#EAB308'),
                 FilamentShieldPlugin::make()->gridColumns([
                     'default' => 1,
                     'sm' => 2,
@@ -63,6 +65,8 @@ class AdminPanelProvider extends PanelProvider
                         'default' => 1,
                         'sm' => 2,
                     ]),
+                ThemesPlugin::make(),
+                SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'id'])
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -84,6 +88,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                SetTheme::class
             ])
             ->authMiddleware([
                 Authenticate::class,

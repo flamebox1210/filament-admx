@@ -11,14 +11,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('articles', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->primary();
             $table->tinyInteger('is_featured')->default(0);
             $table->tinyInteger('is_active')->default(0);
-            $table->string('title');
-            $table->string('slug');
-            $table->text('content')->nullable();
             $table->string('image')->nullable();
-            $table->longText('components')->nullable();
+            $table->json('title');
+            $table->json('slug');
+            $table->json('content')->nullable();
+            $table->json('components')->nullable();
             $table->string('category_id')->nullable();
             $table->text('tags')->nullable();
             $table->dateTime('published_at')->nullable();
@@ -28,9 +28,9 @@ return new class extends Migration {
         });
 
         Schema::create('article_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('slug');
+            $table->bigIncrements('id')->primary();
+            $table->json('title');
+            $table->json('slug');
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

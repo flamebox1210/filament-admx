@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,11 +19,18 @@ use Illuminate\Support\Str;
 
 class ArticleCategoryResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = ArticleCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Categories';
     protected static ?string $navigationGroup = 'Article Management';
+
+    public static function getTranslatableLocales(): array
+    {
+        return ['en', 'id'];
+    }
 
     public static function form(Form $form): Form
     {

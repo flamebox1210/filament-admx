@@ -75,6 +75,7 @@ class UserResource extends Resource
                         ->multiple()
                         ->preload()
                         ->searchable()
+                        ->native(false)
                         ->columnSpan([
                             'sm' => 1,
                             'xl' => 12,

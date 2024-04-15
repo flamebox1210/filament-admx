@@ -11,10 +11,10 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('navigations', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('slug');
-            $table->longText('components')->nullable();
+            $table->bigIncrements('id')->primary();
+            $table->json('title');
+            $table->json('slug');
+            $table->json('components')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

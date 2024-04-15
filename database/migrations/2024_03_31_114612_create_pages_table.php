@@ -11,16 +11,16 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('pages', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->primary();
             $table->tinyInteger('is_default')->default(0);
             $table->tinyInteger('is_active')->default(0);
-            $table->string('title');
-            $table->string('slug');
-            $table->text('content')->nullable();
+            $table->json('title');
+            $table->json('slug');
+            $table->json('content')->nullable();
             $table->string('image')->nullable();
-            $table->longText('components')->nullable();
-            $table->string('meta_title')->nullable();
-            $table->text('meta_description')->nullable();
+            $table->json('components')->nullable();
+            $table->json('meta_title')->nullable();
+            $table->json('meta_description')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Translatable\HasTranslations;
 
 class Article extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasTranslations;
 
     protected $casts = [
         'components' => 'json',
-        'tags' => 'json',
+        'deleted_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'deleted_at' => 'datetime'
     ];
 
     /**
@@ -27,12 +27,23 @@ class Article extends Model
     protected $fillable = [
         'is_featured',
         'is_active',
+        'image',
         'title',
         'slug',
-        'image',
+        'content',
         'components',
         'category_id',
         'tags',
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $translatable = [
+        'title',
+        'slug',
+        'content',
+        'components'
     ];
 
     /**

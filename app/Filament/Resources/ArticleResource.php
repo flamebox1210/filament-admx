@@ -13,9 +13,11 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder as DatabaseBuilder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,8 +25,9 @@ use Illuminate\Support\Str;
 
 class ArticleResource extends Resource
 {
-    protected static ?string $model = Article::class;
+    use Translatable;
 
+    protected static ?string $model = Article::class;
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
     protected static ?string $navigationGroup = 'Article Management';
 
@@ -63,14 +66,27 @@ class ArticleResource extends Resource
                     'sm' => 2,
                     'xl' => 12,
                 ]),
-                Forms\Components\Select::make('category_id')->options(ArticleCategory::all()->pluck('title', 'id'))->required()->columnSpan([
-                    'sm' => 2,
-                    'xl' => 6,
-                ]),
-                Forms\Components\Select::make('tags')->multiple()->options(Tag::all()->pluck('title', 'id'))->nullable()->columnSpan([
-                    'sm' => 2,
-                    'xl' => 6,
-                ]),
+                Forms\Components\Select::make('category_id')->options(ArticleCategory::all()->pluck('title', 'id'))->required()
+                    ->native(false)
+                    ->label('Categories')
+                    ->relationship(name: 'article_categories', titleAttribute: 'title')
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('title')->required()->live(onBlur: true)
+                            ->afterStateUpdated(function (Get $get, Set $set, ?string $state, $context) {
+                                $set('slug', Str::slug($state));
+                            }),
+                        Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true)->readOnlyOn('create')
+                    ])
+                    ->columnSpan([
+                        'sm' => 2,
+                        'xl' => 6,
+                    ]),
+                Forms\Components\Select::make('tags')->multiple()->reactive()->options(Tag::all()->pluck('title', 'id'))->nullable()
+                    ->label('Tags')
+                    ->columnSpan([
+                        'sm' => 2,
+                        'xl' => 6,
+                    ]),
             ])->columnSpan([
                 'sm' => 2,
                 'xl' => 8,
@@ -221,6 +237,7 @@ class ArticleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('article_categories.title')->label('Category'),
                 Tables\Columns\ToggleColumn::make('is_featured'),
                 Tables\Columns\IconColumn::make('is_active')->boolean(),
                 Tables\Columns\TextColumn::make('published_at')
@@ -238,6 +255,12 @@ class ArticleResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('category_id')
+                    ->options(ArticleCategory::all()->pluck('title', 'id'))
+                    ->native(false),
+                SelectFilter::make('tags')
+                    ->options(Tag::all()->pluck('title', 'id'))
+                    ->native(false)
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

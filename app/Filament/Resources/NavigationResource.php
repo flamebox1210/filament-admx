@@ -10,6 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,6 +20,8 @@ use Illuminate\Support\Str;
 
 class NavigationResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = Navigation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
@@ -56,22 +59,27 @@ class NavigationResource extends Resource
                 ]),
                 // Components
                 Forms\Components\Repeater::make('components')
-                    ->label('Menu')
+                    ->label('Menu')->columns([
+                        'sm' => 1,
+                        'xl' => 12,
+                    ])
                     ->schema([
                         Forms\Components\Toggle::make('is_active')->label(null)->columnSpan([
                             'sm' => 1,
-                            'xl' => 2,
-                        ]),
-                        Forms\Components\Select::make('type')->label(false)->options($options)
-                            ->reactive()
-                            ->columnSpan([
-                                'sm' => 1,
-                                'xl' => 6,
-                            ]),
-                        Forms\Components\Select::make('target')->label(false)->options($targets)->nullable()->columnSpan([
-                            'sm' => 1,
                             'xl' => 4,
                         ]),
+                        Forms\Components\Select::make('type')->label(false)->options($options)
+                            ->reactive()->native(false)
+                            ->columnSpan([
+                                'sm' => 1,
+                                'xl' => 4,
+                            ]),
+                        Forms\Components\Select::make('target')->label(false)->options($targets)
+                            ->nullable()->native(false)
+                            ->columnSpan([
+                                'sm' => 1,
+                                'xl' => 4,
+                            ]),
                         Forms\Components\TextInput::make('title')->nullable()
                             ->columnSpan([
                                 'sm' => 1,
@@ -93,22 +101,28 @@ class NavigationResource extends Resource
                                 'sm' => 1,
                                 'xl' => 12,
                             ]),
-                        Forms\Components\Repeater::make('children')
+                        Forms\Components\Repeater::make('children')->columns([
+                            'sm' => 1,
+                            'xl' => 12,
+                        ])
                             ->schema([
                                 Forms\Components\Toggle::make('is_active')->label(null)->columnSpan([
                                     'sm' => 1,
-                                    'xl' => 2,
-                                ]),
-                                Forms\Components\Select::make('type')->label(false)->options($options)
-                                    ->reactive()
-                                    ->columnSpan([
-                                        'sm' => 1,
-                                        'xl' => 6,
-                                    ]),
-                                Forms\Components\Select::make('target')->label(false)->options($targets)->nullable()->columnSpan([
-                                    'sm' => 1,
                                     'xl' => 4,
                                 ]),
+                                Forms\Components\Select::make('type')->label(false)->options($options)
+                                    ->reactive()->native(false)
+                                    ->columnSpan([
+                                        'sm' => 1,
+                                        'xl' => 4,
+                                    ]),
+                                Forms\Components\Select::make('target')->label(false)->options($targets)
+                                    ->nullable()
+                                    ->native(false)
+                                    ->columnSpan([
+                                        'sm' => 1,
+                                        'xl' => 4,
+                                    ]),
                                 Forms\Components\TextInput::make('title')->nullable()
                                     ->columnSpan([
                                         'sm' => 1,

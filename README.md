@@ -78,7 +78,21 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## Plugins
 
+### Fresh Install
+
+```
+composer dump && php artisan db:wipe && php artisan migrate && php artisan db:seed
+```
+
+### Make New User
+
+```
+php artisan make:filament-user
+```
+
 ### Shield (Roles/Permission)
 
-**[https://github.com/bezhanSalleh/filament-shield](https://github.com/bezhanSalleh/filament-shield)**
+```
+php artisan shield:install && php artisan shield:super-admin
+```
 
