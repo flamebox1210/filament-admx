@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id')->primary();
             $table->tinyInteger('is_featured')->default(0);
             $table->tinyInteger('is_active')->default(0);
@@ -19,19 +19,8 @@ return new class extends Migration {
             $table->json('slug');
             $table->json('content')->nullable();
             $table->json('components')->nullable();
-            $table->string('category_id')->nullable();
-            $table->string('author_id')->nullable();
-            $table->text('tags')->nullable();
-            $table->dateTime('published_at')->nullable();
-            $table->softDeletes();
-            $table->rememberToken();
-            $table->timestamps();
-        });
-
-        Schema::create('article_categories', function (Blueprint $table) {
-            $table->bigIncrements('id')->primary();
-            $table->json('title');
-            $table->json('slug');
+            $table->dateTime('started_at')->nullable();
+            $table->dateTime('ended_at')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
@@ -43,7 +32,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('article_categories');
-        Schema::dropIfExists('articles');
+        Schema::dropIfExists('events');
     }
 };

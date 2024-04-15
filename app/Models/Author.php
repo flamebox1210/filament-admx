@@ -7,15 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
-class Page extends Model
+class Author extends Model
 {
     use HasFactory, SoftDeletes, HasTranslations;
 
-    /**
-     * @var string[]
-     */
     protected $casts = [
-        'components' => 'json',
         'deleted_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -27,26 +23,17 @@ class Page extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'is_default',
         'is_active',
         'image',
-        'title',
-        'slug',
+        'name',
+        'position',
         'content',
-        'components',
     ];
 
     /**
      * @var string[]
      */
     protected $translatable = [
-        'title',
-        'slug',
         'content',
-        'components',
-        'meta_title',
-        'meta_description'
     ];
-
-
 }

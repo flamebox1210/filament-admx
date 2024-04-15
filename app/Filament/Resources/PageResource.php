@@ -29,6 +29,7 @@ class PageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-square-3-stack-3d';
     protected static ?string $navigationLabel = 'Pages';
+    protected static ?string $recordTitleAttribute = 'title';
 
 
     public static function form(Form $form): Form
@@ -63,7 +64,7 @@ class PageResource extends Resource
                         ->icon('heroicon-o-globe-alt')
                         ->schema([
                             Forms\Components\TextInput::make('meta_title')->nullable(),
-                            Forms\Components\Textarea::make('meta_description')->nullable()
+                            Forms\Components\Textarea::make('meta_description')->autosize()->nullable()
                         ]),
                 ])->columnSpan([
                     'sm' => 2,
@@ -172,7 +173,7 @@ class PageResource extends Resource
                                 ->schema([
                                     Forms\Components\Toggle::make('is_active'),
                                     Forms\Components\TextInput::make('title'),
-                                    Forms\Components\Textarea::make('content'),
+                                    Forms\Components\Textarea::make('content')->autosize(),
                                 ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
                                 ->collapsible()->collapsed(),
                         ])

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Models\Article;
 use App\Models\ArticleCategory;
+use App\Models\Author;
 use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Components\Builder;
@@ -30,6 +31,7 @@ class ArticleResource extends Resource
     protected static ?string $model = Article::class;
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
     protected static ?string $navigationGroup = 'Article Management';
+    protected static ?string $recordTitleAttribute = 'title';
 
     /**
      * @return string|null
@@ -69,7 +71,7 @@ class ArticleResource extends Resource
                 Forms\Components\Select::make('category_id')->options(ArticleCategory::all()->pluck('title', 'id'))->required()
                     ->native(false)
                     ->label('Categories')
-                    ->relationship(name: 'article_categories', titleAttribute: 'title')
+                    ->relationship(name: 'article_category', titleAttribute: 'title')
                     ->createOptionForm([
                         Forms\Components\TextInput::make('title')->required()->live(onBlur: true)
                             ->afterStateUpdated(function (Get $get, Set $set, ?string $state, $context) {
@@ -107,6 +109,13 @@ class ArticleResource extends Resource
                     ->disk('public')->directory($module)
                     ->optimize('webp')
                     ->nullable()->columnSpan([
+                        'sm' => 2,
+                        'xl' => 12,
+                    ]),
+                Forms\Components\Select::make('author_id')->options(Author::all()->pluck('name', 'id'))->required()
+                    ->native(false)
+                    ->label('Author')
+                    ->columnSpan([
                         'sm' => 2,
                         'xl' => 12,
                     ]),
@@ -195,7 +204,7 @@ class ArticleResource extends Resource
                                 'sm' => 1,
                                 'xl' => 6,
                             ]),
-                            Forms\Components\Textarea::make('content')->columnSpan([
+                            Forms\Components\Textarea::make('content')->autosize()->columnSpan([
                                 'sm' => 1,
                                 'xl' => 12,
                             ]),
@@ -237,7 +246,7 @@ class ArticleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('article_categories.title')->label('Category'),
+                Tables\Columns\TextColumn::make('article_category.title')->label('Category'),
                 Tables\Columns\ToggleColumn::make('is_featured'),
                 Tables\Columns\IconColumn::make('is_active')->boolean(),
                 Tables\Columns\TextColumn::make('published_at')

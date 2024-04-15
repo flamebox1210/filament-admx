@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
-class Article extends Model
+class Event extends Model
 {
     use HasFactory, SoftDeletes, HasTranslations;
 
@@ -16,8 +15,8 @@ class Article extends Model
      * @var string[]
      */
     protected $casts = [
-        'components' => 'json',
-        'published_at' => 'datetime',
+        'started_at' => 'datetime',
+        'ended_at' => 'datetime',
         'deleted_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -29,17 +28,14 @@ class Article extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'is_featured',
         'is_active',
         'image',
         'title',
         'slug',
         'content',
         'components',
-        'category_id',
-        'author_id',
-        'tags',
-        'published_at',
+        'started_at',
+        'ended_at',
     ];
 
     /**
@@ -51,22 +47,4 @@ class Article extends Model
         'content',
         'components'
     ];
-
-    /**
-     * @return BelongsTo
-     */
-    public function article_category(): HasOne
-    {
-        return $this->hasOne(ArticleCategory::class, 'id', 'category_id');
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function article_author(): HasOne
-    {
-        return $this->hasOne(Author::class, 'id', 'author_id');
-    }
-
-
 }
