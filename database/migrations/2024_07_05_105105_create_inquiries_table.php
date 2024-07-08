@@ -10,12 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('navigations', function (Blueprint $table) {
+        Schema::create('inquiries', function (Blueprint $table) {
             $table->bigIncrements('id')->primary();
-            $table->tinyInteger('is_active')->default(0);
-            $table->json('title');
-            $table->json('slug');
-            $table->json('components')->nullable();
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('subject')->nullable();
+            $table->text('message')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
@@ -27,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('navigations');
+        Schema::dropIfExists('inquiries');
     }
 };

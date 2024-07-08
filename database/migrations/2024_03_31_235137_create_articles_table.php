@@ -19,8 +19,8 @@ return new class extends Migration {
             $table->json('slug');
             $table->json('content')->nullable();
             $table->json('components')->nullable();
-            $table->string('category_id')->nullable();
-            $table->string('author_id')->nullable();
+            $table->bigInteger('category_id')->nullable();
+            $table->bigInteger('author_id')->nullable();
             $table->text('tags')->nullable();
             $table->dateTime('published_at')->nullable();
             $table->softDeletes();

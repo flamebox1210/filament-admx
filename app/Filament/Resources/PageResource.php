@@ -8,6 +8,7 @@ use App\Models\Page;
 use Filament\Forms;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
@@ -85,6 +86,71 @@ class PageResource extends Resource
             Builder::make('components')
                 ->label('Content')
                 ->blocks([
+                    // Accordion
+                    Builder\Block::make('accordion')
+                        ->icon('heroicon-m-queue-list')
+                        ->schema([
+                            Forms\Components\Toggle::make('is_active'),
+                            Forms\Components\Repeater::make('items')
+                                ->schema([
+                                    Forms\Components\TextInput::make('title'),
+                                    Forms\Components\Textarea::make('content')->autosize(),
+                                ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
+                                ->collapsible()->collapsed(),
+                        ]),
+                    // Carousel
+                    Builder\Block::make('carousel')
+                        ->icon('heroicon-o-photo')
+                        ->schema([
+                            Forms\Components\Toggle::make('is_active'),
+                            Forms\Components\Repeater::make('items')
+                                ->columns([
+                                    'sm' => 1,
+                                    'xl' => 12,
+                                ])
+                                ->schema([
+                                    Grid::make()
+                                        ->columnSpan([
+                                            'sm' => 1,
+                                            'xl' => 4,
+                                        ])->schema([
+                                            Forms\Components\FileUpload::make('image')->image()->imageEditor()->imageEditorMode(2)
+                                                ->disk('public')->directory($module)
+                                                ->optimize('webp')
+                                                ->nullable()
+                                                ->columnSpanFull()
+                                        ]),
+                                    Grid::make()
+                                        ->columnSpan([
+                                            'sm' => 1,
+                                            'xl' => 8,
+                                        ])->schema([
+                                            Grid::make()
+                                                ->columns([
+                                                    'sm' => 1,
+                                                    'xl' => 12,
+                                                ])->schema([
+                                                    Forms\Components\TextInput::make('title')->columnSpan([
+                                                        'sm' => 1,
+                                                        'xl' => 12,
+                                                    ]),
+                                                    Forms\Components\Textarea::make('content')->autosize()->columnSpan([
+                                                        'sm' => 1,
+                                                        'xl' => 12,
+                                                    ]),
+                                                    Forms\Components\TextInput::make('button_label')->columnSpan([
+                                                        'sm' => 1,
+                                                        'xl' => 6,
+                                                    ]),
+                                                    Forms\Components\TextInput::make('url')->prefixIcon('heroicon-o-link')->columnSpan([
+                                                        'sm' => 1,
+                                                        'xl' => 6,
+                                                    ]),
+                                                ]),
+                                        ])
+                                ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
+                                ->collapsible()->collapsed(),
+                        ]),
                     // Paragraph
                     Builder\Block::make('paragraph')
                         ->icon('heroicon-c-bars-4')
@@ -120,18 +186,8 @@ class PageResource extends Resource
                                 'xl' => 8,
                             ]),
                         ]),
-                    // Image
-                    Builder\Block::make('image')
-                        ->icon('heroicon-o-photo')
-                        ->schema([
-                            Forms\Components\Toggle::make('is_active'),
-                            Forms\Components\FileUpload::make('image')->image()->imageEditor()->imageEditorMode(2)
-                                ->disk('public')->directory($module)
-                                ->optimize('webp')
-                                ->nullable(),
-                        ]),
-                    // Video
-                    Builder\Block::make('video')
+                    // Video Banner
+                    Builder\Block::make('video_banner')
                         ->icon('heroicon-o-video-camera')
                         ->columns([
                             'sm' => 1,
@@ -150,8 +206,15 @@ class PageResource extends Resource
                                 ]),
                             Forms\Components\TextInput::make('youtube_url')->url()
                                 ->prefixIcon('heroicon-o-link')
+                                ->placeholder('https://www.youtube.com/watch?v=[YOUR_YOUTUBE_ID]')
                                 ->hidden(fn(Get $get) => $get('type') !== 'youtube')
                                 ->nullable()->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 12,
+                                ]),
+                            Forms\Components\ViewField::make('youtube_url')
+                                ->hidden(fn(Get $get) => $get('type') !== 'youtube')
+                                ->view('filament.forms.components.youtube-preview')->columnSpan([
                                     'sm' => 1,
                                     'xl' => 12,
                                 ]),
@@ -164,19 +227,6 @@ class PageResource extends Resource
                                     'xl' => 12,
                                 ]),
                         ]),
-                    // Accordion
-                    Builder\Block::make('accordions')
-                        ->icon('heroicon-m-queue-list')
-                        ->schema([
-                            Forms\Components\Toggle::make('is_active'),
-                            Forms\Components\Repeater::make('items')
-                                ->schema([
-                                    Forms\Components\Toggle::make('is_active'),
-                                    Forms\Components\TextInput::make('title'),
-                                    Forms\Components\Textarea::make('content')->autosize(),
-                                ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
-                                ->collapsible()->collapsed(),
-                        ])
                 ])->columnSpan([
                     'sm' => 1,
                     'xl' => 12,

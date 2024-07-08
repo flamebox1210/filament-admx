@@ -16,6 +16,7 @@ class Article extends Model
      * @var string[]
      */
     protected $casts = [
+        'tags' => 'json',
         'components' => 'json',
         'published_at' => 'datetime',
         'deleted_at' => 'datetime',
@@ -53,7 +54,7 @@ class Article extends Model
     ];
 
     /**
-     * @return BelongsTo
+     * @return HasOne
      */
     public function article_category(): HasOne
     {
@@ -61,7 +62,7 @@ class Article extends Model
     }
 
     /**
-     * @return BelongsTo
+     * @return HasOne
      */
     public function article_author(): HasOne
     {

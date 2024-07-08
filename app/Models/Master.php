@@ -2,21 +2,17 @@
 
 namespace App\Models;
 
+use App;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
-class Event extends Model
+class Master extends Model
 {
     use HasFactory, SoftDeletes, HasTranslations;
 
-    /**
-     * @var string[]
-     */
     protected $casts = [
-        'started_at' => 'datetime',
-        'ended_at' => 'datetime',
         'deleted_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -28,23 +24,29 @@ class Event extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'is_active',
-        'image',
         'title',
         'slug',
         'content',
-        'components',
-        'started_at',
-        'ended_at',
     ];
-
     /**
      * @var string[]
      */
     protected $translatable = [
         'title',
         'slug',
-        'content',
-        'components'
+        'content'
     ];
+
+    public function toArray()
+    {
+        $attributes = $this->attributesToArray(); // attributes selected by the query
+        // remove attributes if they are not selected
+        $translatables = array_filter($this->getTranslatableAttributes(), function ($key) use ($attributes) {
+            return array_key_exists($key, $attributes);
+        });
+        foreach ($translatables as $field) {
+            $attributes[$field] = $this->getTranslation($field, app()->getLocale());
+        }
+        return array_merge($attributes, $this->relationsToArray());
+    }
 }

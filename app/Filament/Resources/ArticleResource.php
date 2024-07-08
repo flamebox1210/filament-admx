@@ -85,6 +85,30 @@ class ArticleResource extends Resource
                     ]),
                 Forms\Components\Select::make('tags')->multiple()->reactive()->options(Tag::all()->pluck('title', 'id'))->nullable()
                     ->label('Tags')
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('tag_title')->required()->live(onBlur: true)
+                            ->afterStateUpdated(function (Get $get, Set $set, ?string $state, $context) {
+                                $set('tag_slug', Str::slug($state));
+                            }),
+                        Forms\Components\TextInput::make('tag_slug')->required()->unique(ignoreRecord: true)->readOnly()
+                    ])->createOptionUsing(function (array $data) {
+                        if ($data['tag_slug']) {
+                            $findRecord = Tag::where('slug->' . app()->getLocale(), $data['tag_slug'])->count();
+                            if ($findRecord > 0) {
+                                $record = Tag::where('slug->' . app()->getLocale(), $data['tag_slug'])->first();
+                                $record->replaceTranslations('title', [app()->getLocale() => $data['tag_title']]);
+                                $record->replaceTranslations('slug', [app()->getLocale() => $data['tag_slug']]);
+                                $record->save();
+                            } else {
+                                $record = Tag::create([
+                                    'title' => $data['tag_title'],
+                                    'slug' => $data['tag_slug'],
+                                ]);
+                            }
+                            return $record->getKey();
+                        }
+                    })
                     ->columnSpan([
                         'sm' => 2,
                         'xl' => 6,

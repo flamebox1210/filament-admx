@@ -7,6 +7,7 @@ use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -39,7 +40,10 @@ class AdminPanelProvider extends PanelProvider
             ->font('Mulish')
             ->login()
             //->passwordReset()
+            ->topNavigation()
+            ->topbar(true)
             ->profile(isSimple: false)
+            ->viteTheme('resources/css/app.css')
             /*->colors([
                 'gray' => Color::Zinc,
                 'primary' => Color::Indigo,
@@ -48,26 +52,6 @@ class AdminPanelProvider extends PanelProvider
                 'warning' => Color::Amber,
                 'danger' => Color::Rose,
             ])*/
-            ->plugins([
-                FilamentProgressbarPlugin::make()->color('#EAB308'),
-                FilamentShieldPlugin::make()->gridColumns([
-                    'default' => 1,
-                    'sm' => 2,
-                    'lg' => 2
-                ])
-                    ->sectionColumnSpan(1)
-                    ->checkboxListColumns([
-                        'default' => 1,
-                        'sm' => 2,
-                        'lg' => 2,
-                    ])
-                    ->resourceCheckboxListColumns([
-                        'default' => 1,
-                        'sm' => 2,
-                    ]),
-                ThemesPlugin::make(),
-                SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'id'])
-            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -92,6 +76,41 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            /*
+            * custom menu
+            */
+            ->userMenuItems([
+                'profile' => MenuItem::make()->label('Edit profile'),
+            ])
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Users')
+                    ->url('/admin/users')
+                    ->icon('heroicon-o-users'),
+            ])
+            /*
+            * plugins
+            */
+            ->plugins([
+                FilamentProgressbarPlugin::make()->color('#0EA5E9'),
+                FilamentShieldPlugin::make()->gridColumns([
+                    'default' => 1,
+                    'sm' => 2,
+                    'lg' => 2
+                ])
+                    ->sectionColumnSpan(1)
+                    ->checkboxListColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                        'lg' => 2,
+                    ])
+                    ->resourceCheckboxListColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                    ]),
+                ThemesPlugin::make(),
+                SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'id'])
             ]);
     }
 }

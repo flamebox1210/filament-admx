@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\EventResource\Pages;
+namespace App\Filament\Resources\MasterResource\Pages;
 
-use App\Filament\Resources\EventResource;
+use App\Filament\Resources\MasterResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateEvent extends CreateRecord
+class CreateMaster extends CreateRecord
 {
     use CreateRecord\Concerns\Translatable;
 
-    protected static string $resource = EventResource::class;
+    protected static string $resource = MasterResource::class;
 
     protected function getHeaderActions(): array
     {
