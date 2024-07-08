@@ -25,6 +25,7 @@ class NavigationResource extends Resource
     protected static ?string $model = Navigation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
+    protected static ?int $navigationSort = 0;
 
     public static function form(Form $form): Form
     {

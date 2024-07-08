@@ -13,6 +13,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\SpatieLaravelTranslatablePlugin;
 use Filament\Widgets;
+use FilipFonal\FilamentLogManager\FilamentLogManager;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
 use Hasnayeen\Themes\ThemesPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -83,12 +84,12 @@ class AdminPanelProvider extends PanelProvider
             ->userMenuItems([
                 'profile' => MenuItem::make()->label('Edit profile'),
             ])
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label('Users')
-                    ->url('/admin/users')
-                    ->icon('heroicon-o-users'),
-            ])
+            /* ->userMenuItems([
+                 MenuItem::make()
+                     ->label('Users')
+                     ->url('/admin/users')
+                     ->icon('heroicon-o-users'),
+             ])*/
             /*
             * plugins
             */
@@ -110,7 +111,8 @@ class AdminPanelProvider extends PanelProvider
                         'sm' => 2,
                     ]),
                 ThemesPlugin::make(),
-                SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'id'])
+                SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'id']),
+                FilamentLogManager::make(),
             ]);
     }
 }

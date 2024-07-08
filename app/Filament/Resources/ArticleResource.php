@@ -31,6 +31,7 @@ class ArticleResource extends Resource
     protected static ?string $model = Article::class;
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
     protected static ?string $navigationGroup = 'Article Management';
+    protected static ?int $navigationSort = 1;
     protected static ?string $recordTitleAttribute = 'title';
 
     /**

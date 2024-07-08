@@ -23,8 +23,8 @@ class InquiryResource extends Resource
     protected static ?string $model = Inquiry::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-identification';
-
-    protected static ?int $navigationSort = 7;
+    protected static ?string $navigationGroup = 'Data Management';
+    protected static ?int $navigationSort = 0;
 
     public static function form(Form $form): Form
     {

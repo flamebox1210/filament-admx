@@ -26,6 +26,7 @@ class ArticleCategoryResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Categories';
     protected static ?string $navigationGroup = 'Article Management';
+    protected static ?int $navigationSort = 0;
 
     public static function getTranslatableLocales(): array
     {
