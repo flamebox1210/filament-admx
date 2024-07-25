@@ -33,7 +33,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path('cp')
             ->favicon(asset('favicon.svg'))
             ->brandName('Admin Panel')
             ->brandLogo(asset('logo.svg'))

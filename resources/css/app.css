@@ -2,10 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-.fi-form-actions {
-    @apply fixed bottom-4 left-0 right-0 mx-auto max-w-max justify-center p-2 shadow-sm bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700;
+.fi-panel-admin {
+    .fi-page {
 
-    .fi-ac {
-        @apply mx-auto text-center justify-center;
+        .fi-form-actions {
+            @apply fixed bottom-4 left-0 right-0 mx-auto max-w-max justify-center p-2 shadow-sm bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700;
+
+            .fi-ac {
+                @apply mx-auto text-center justify-center;
+            }
+        }
     }
 }
+
