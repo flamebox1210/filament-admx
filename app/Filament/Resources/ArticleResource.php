@@ -7,8 +7,8 @@ use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\Author;
 use App\Models\Tag;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms;
-use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
@@ -23,6 +23,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder as DatabaseBuilder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class ArticleResource extends Resource
 {
@@ -46,10 +47,7 @@ class ArticleResource extends Resource
     {
         $module = 'articles';
 
-        $videoOptions = [
-            'upload' => 'Upload video',
-            'youtube' => 'Youtube url'
-        ];
+        $maxFileSize = 1024;
 
         return $form->schema([
             // Index
@@ -59,16 +57,17 @@ class ArticleResource extends Resource
             ])->schema([
                 Forms\Components\TextInput::make('title')->required()->live(onBlur: true)
                     ->afterStateUpdated(function (Get $get, Set $set, ?string $state, $context) {
-                        if ($context == 'create')
-                            $set('slug', Str::slug($state));
+                        //if ($context == 'create')
+                        $set('slug', Str::slug($state));
                     })->columnSpan([
                         'sm' => 2,
                         'xl' => 12,
                     ]),
-                Forms\Components\RichEditor::make('content')->label('Description')->nullable()->columnSpan([
-                    'sm' => 2,
-                    'xl' => 12,
-                ]),
+                TinyEditor::make('content')->label('Description')
+                    ->profile('simple')->language(app()->getLocale())->nullable()->columnSpan([
+                        'sm' => 2,
+                        'xl' => 12,
+                    ]),
                 Forms\Components\Select::make('category_id')->options(ArticleCategory::all()->pluck('title', 'id'))->required()
                     ->native(false)
                     ->label('Categories')
@@ -130,14 +129,15 @@ class ArticleResource extends Resource
                     'sm' => 2,
                     'xl' => 12,
                 ]),
-                Forms\Components\FileUpload::make('image')->image()->imageEditor()->imageEditorMode(2)
-                    ->disk('public')->directory($module)
-                    ->optimize('webp')
+                CuratorPicker::make('image')->color('gray')
+                    ->buttonLabel('Browse')
+                    ->maxSize($maxFileSize)
+                    ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
                     ->nullable()->columnSpan([
                         'sm' => 2,
                         'xl' => 12,
                     ]),
-                Forms\Components\Select::make('author_id')->options(Author::all()->pluck('name', 'id'))->required()
+                Forms\Components\Select::make('author_id')->options(Author::all()->pluck('name', 'id'))
                     ->native(false)
                     ->label('Author')
                     ->columnSpan([
@@ -159,88 +159,12 @@ class ArticleResource extends Resource
                 'xl' => 4,
             ]),
             // Components
-            Forms\Components\Builder::make('components')
-                ->label('Content')
-                ->blocks([
-                    // Paragraph
-                    Builder\Block::make('paragraph')
-                        ->icon('heroicon-c-bars-4')
-                        ->schema([
-                            Forms\Components\Toggle::make('is_active'),
-                            Forms\Components\RichEditor::make('content')->nullable(),
-                        ]),
-                    // Image
-                    Builder\Block::make('image')
-                        ->icon('heroicon-o-photo')
-                        ->schema([
-                            Forms\Components\Toggle::make('is_active'),
-                            Forms\Components\FileUpload::make('image')->image()->imageEditor()->imageEditorMode(2)
-                                ->disk('public')->directory($module)
-                                ->optimize('webp')
-                                ->nullable(),
-                        ]),
-                    // Video
-                    Builder\Block::make('video')
-                        ->icon('heroicon-o-video-camera')
-                        ->columns([
-                            'sm' => 1,
-                            'xl' => 12,
-                        ])
-                        ->schema([
-                            Forms\Components\Toggle::make('is_active')->label(null)->columnSpan([
-                                'sm' => 1,
-                                'xl' => 4,
-                            ]),
-                            Forms\Components\Radio::make('type')->inline()->label(false)->options($videoOptions)
-                                ->reactive()
-                                ->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 8,
-                                ]),
-                            Forms\Components\TextInput::make('youtube_url')->url()
-                                ->prefixIcon('heroicon-o-link')
-                                ->hidden(fn(Get $get) => $get('type') !== 'youtube')
-                                ->nullable()->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 12,
-                                ]),
-                            Forms\Components\FileUpload::make('upload_video')
-                                ->disk('public')->directory($module)
-                                ->optimize('webp')
-                                ->hidden(fn(Get $get) => $get('type') !== 'upload')
-                                ->nullable()->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 12,
-                                ]),
-                        ]),
-                    // Quote
-                    Builder\Block::make('quote')
-                        ->icon('heroicon-o-chat-bubble-oval-left')
-                        ->schema([
-                            Forms\Components\Toggle::make('is_active')->columnSpan([
-                                'sm' => 1,
-                                'xl' => 12,
-                            ]),
-                            Forms\Components\TextInput::make('name')->columnSpan([
-                                'sm' => 1,
-                                'xl' => 6,
-                            ]),
-                            Forms\Components\TextInput::make('role')->columnSpan([
-                                'sm' => 1,
-                                'xl' => 6,
-                            ]),
-                            Forms\Components\Textarea::make('content')->autosize()->columnSpan([
-                                'sm' => 1,
-                                'xl' => 12,
-                            ]),
-                        ])->columns([
-                            'sm' => 1,
-                            'xl' => 12,
-                        ])
-                ])->columnSpan([
-                    'sm' => 1,
-                    'xl' => 12,
-                ])->collapsible()->collapsed()->cloneable(),
+
+            // Components
+            ComponentBuilderResource::articleComponents($module, 'en')
+                ->hidden(fn(Get $get) => $get('../activeLocale') == 'id'),
+            ComponentBuilderResource::articleComponents($module, 'id')
+                ->hidden(fn(Get $get) => $get('../activeLocale') == 'en'),
             // Status
             Fieldset::make()->columns([
                 'sm' => 1,
@@ -294,6 +218,7 @@ class ArticleResource extends Resource
                     ->native(false),
                 SelectFilter::make('tags')
                     ->options(Tag::all()->pluck('title', 'id'))
+                    ->multiple()
                     ->native(false)
             ])
             ->actions([

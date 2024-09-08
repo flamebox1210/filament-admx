@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('masters', function (Blueprint $table) {
             $table->bigIncrements('id')->primary();
             $table->tinyInteger('is_active')->default(0);
+            $table->string('section')->nullable();
             $table->json('title');
             $table->json('slug');
             $table->json('content')->nullable();

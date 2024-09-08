@@ -6,18 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
 
 class Article extends Model
 {
-    use HasFactory, SoftDeletes, HasTranslations;
+    use HasFactory, SoftDeletes, HasTranslations, LogsActivity;
 
     /**
      * @var string[]
      */
     protected $casts = [
         'tags' => 'json',
-        'components' => 'json',
+        'components:en' => 'json',
+        'components:id' => 'json',
         'published_at' => 'datetime',
         'deleted_at' => 'datetime',
         'created_at' => 'datetime',
@@ -36,7 +39,8 @@ class Article extends Model
         'title',
         'slug',
         'content',
-        'components',
+        'components:en',
+        'components:id',
         'category_id',
         'author_id',
         'tags',
@@ -69,5 +73,10 @@ class Article extends Model
         return $this->hasOne(Author::class, 'id', 'author_id');
     }
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['title', 'published_at']);
+    }
 
 }

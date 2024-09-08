@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\MasterSection;
 use App\Filament\Resources\MasterResource\Pages;
 use App\Filament\Resources\MasterResource\RelationManagers;
 use App\Models\Master;
@@ -30,6 +31,16 @@ class MasterResource extends Resource
     protected static ?string $navigationLabel = 'Master Data';
     protected static ?int $navigationSort = 1;
 
+    protected static ?string $recordTitleAttribute = 'title';
+
+    /**
+     * @return string|null
+     */
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form->columns([
@@ -40,6 +51,10 @@ class MasterResource extends Resource
                 'sm' => 2,
                 'xl' => 12,
             ])->schema([
+                Forms\Components\Select::make('section')->options(MasterSection::class)->native(false)->columnSpan([
+                    'sm' => 2,
+                    'xl' => 12,
+                ]),
                 Forms\Components\TextInput::make('title')->required()->live(onBlur: true)
                     ->afterStateUpdated(function (Get $get, Set $set, ?string $state, $context) {
                         if ($context == 'create')

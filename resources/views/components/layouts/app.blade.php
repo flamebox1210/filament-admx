@@ -18,7 +18,7 @@
     </style>
 
     @filamentStyles
-    @vite('resources/css/app.css')
+    @vite('resources/scss/app.scss')
 </head>
 
 <body class="antialiased">

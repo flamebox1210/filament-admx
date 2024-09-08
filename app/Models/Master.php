@@ -24,6 +24,7 @@ class Master extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'section',
         'title',
         'slug',
         'content',

@@ -3,7 +3,11 @@
 namespace App\Providers\Filament;
 
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
+use App\Filament\Resources\CustomMediaResource;
+use Awcodes\Curator\CuratorPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Filament\Enums\ThemeMode;
+use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -12,10 +16,8 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\SpatieLaravelTranslatablePlugin;
+use Filament\Support\Colors\Color;
 use Filament\Widgets;
-use FilipFonal\FilamentLogManager\FilamentLogManager;
-use Hasnayeen\Themes\Http\Middleware\SetTheme;
-use Hasnayeen\Themes\ThemesPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -24,6 +26,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin;
+use Rmsramos\Activitylog\ActivitylogPlugin;
 
 
 class AdminPanelProvider extends PanelProvider
@@ -34,25 +37,29 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('cp')
-            ->favicon(asset('favicon.svg'))
+            ->defaultThemeMode(ThemeMode::Light)
+            ->favicon(asset('logo.svg'))
             ->brandName('Admin Panel')
             ->brandLogo(asset('logo.svg'))
+            ->darkModeBrandLogo(asset('logo-dark.svg'))
             ->brandLogoHeight('2rem')
-            ->font('Mulish')
             ->login()
             //->passwordReset()
-            ->topNavigation()
+            //->topNavigation()
+            ->sidebarCollapsibleOnDesktop(true)
             ->topbar(true)
             ->profile(isSimple: false)
-            ->viteTheme('resources/css/app.css')
-            /*->colors([
-                'gray' => Color::Zinc,
-                'primary' => Color::Indigo,
-                'info' => Color::Blue,
-                'success' => Color::Green,
-                'warning' => Color::Amber,
+            ->font('Lato', provider: GoogleFontProvider::class)
+            ->viteTheme('resources/scss/app.scss')
+            ->colors([
                 'danger' => Color::Rose,
-            ])*/
+                'gray' => Color::Gray,
+                'info' => Color::Blue,
+                'primary' => Color::Indigo,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
+            ])
+            ->databaseNotifications()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -73,7 +80,6 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                SetTheme::class
             ])
             ->authMiddleware([
                 Authenticate::class,
@@ -83,6 +89,11 @@ class AdminPanelProvider extends PanelProvider
             */
             ->userMenuItems([
                 'profile' => MenuItem::make()->label('Edit profile'),
+                /* 'language' => MenuItem::make()
+                     ->label('Switch language')
+                     ->url(fn(): string => route('filament.admin.language.switch',
+                         session('locale') ? session('locale') : 'en'
+                     )),*/
             ])
             /* ->userMenuItems([
                  MenuItem::make()
@@ -94,7 +105,7 @@ class AdminPanelProvider extends PanelProvider
             * plugins
             */
             ->plugins([
-                FilamentProgressbarPlugin::make()->color('#0EA5E9'),
+                FilamentProgressbarPlugin::make()->color('#6366f1'),
                 FilamentShieldPlugin::make()->gridColumns([
                     'default' => 1,
                     'sm' => 2,
@@ -110,9 +121,15 @@ class AdminPanelProvider extends PanelProvider
                         'default' => 1,
                         'sm' => 2,
                     ]),
-                ThemesPlugin::make(),
-                SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'id']),
-                FilamentLogManager::make(),
+                SpatieLaravelTranslatablePlugin::make()->defaultLocales(config('app.locales')),
+                ActivitylogPlugin::make()
+                    ->navigationGroup('User Management')
+                    ->navigationIcon('heroicon-o-clock')
+                    ->navigationSort(3),
+                CuratorPlugin::make()
+                    ->navigationIcon('heroicon-o-photo')
+                    ->navigationGroup('Data Management')
+                    ->defaultListView('grid')
             ]);
     }
 }

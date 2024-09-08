@@ -15,7 +15,8 @@ class Page extends Model
      * @var string[]
      */
     protected $casts = [
-        'components' => 'json',
+        'components:en' => 'json',
+        'components:id' => 'json',
         'deleted_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -33,7 +34,8 @@ class Page extends Model
         'title',
         'slug',
         'content',
-        'components',
+        'components:en',
+        'components:id',
     ];
 
     /**
@@ -43,7 +45,6 @@ class Page extends Model
         'title',
         'slug',
         'content',
-        'components',
         'meta_title',
         'meta_description'
     ];
