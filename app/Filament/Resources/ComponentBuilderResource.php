@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ComponentBuilderResource\RelationManagers;
 use App\Models\ComponentBuilder;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms;
 use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\Grid;
@@ -24,6 +25,8 @@ class ComponentBuilderResource
             'upload' => 'Upload video',
             'youtube' => 'Youtube url'
         ];
+        $maxFileSize = 1024;
+
         return
             Forms\Components\Builder::make('components:' . $locale)
                 ->label('components')
@@ -32,7 +35,7 @@ class ComponentBuilderResource
                     Block::make('accordion')
                         ->icon('heroicon-m-queue-list')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active'),
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
                             Forms\Components\TextInput::make('title'),
                             Forms\Components\Repeater::make('items')
                                 ->schema([
@@ -45,7 +48,7 @@ class ComponentBuilderResource
                     Block::make('carousel')
                         ->icon('heroicon-o-photo')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active'),
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
                             Forms\Components\Repeater::make('items')
                                 ->columns([
                                     'sm' => 1,
@@ -57,9 +60,10 @@ class ComponentBuilderResource
                                             'sm' => 1,
                                             'xl' => 4,
                                         ])->schema([
-                                            Forms\Components\FileUpload::make('image')->image()->imageEditor()->imageEditorMode(2)
-                                                ->disk('public')->directory($module)
-                                                ->optimize('webp')
+                                            CuratorPicker::make('image')->color('gray')
+                                                ->buttonLabel('Browse')
+                                                ->maxSize($maxFileSize)
+                                                ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
                                                 ->nullable()
                                                 ->columnSpanFull()
                                         ]),
@@ -98,12 +102,9 @@ class ComponentBuilderResource
                     Block::make('paragraph')
                         ->icon('heroicon-c-bars-4')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active'),
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
                             TinyEditor::make('content')
-                                ->showMenuBar()
-                                ->fileAttachmentsDisk('local')->fileAttachmentsVisibility('public')
-                                ->fileAttachmentsDirectory($module)
-                                ->profile('default')->language(app()->getLocale())->nullable(),
+                                ->profile('simple')->language(app()->getLocale())->nullable(),
                         ]),
                     // Text & Image
                     Block::make('text_image')
@@ -112,7 +113,7 @@ class ComponentBuilderResource
                             'sm' => 1,
                             'xl' => 12,
                         ])->schema([
-                            Forms\Components\Toggle::make('is_active')->label(null)->columnSpan([
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->label(null)->columnSpan([
                                 'sm' => 1,
                                 'xl' => 4,
                             ]),
@@ -121,9 +122,10 @@ class ComponentBuilderResource
                                     'sm' => 1,
                                     'xl' => 8,
                                 ]),
-                            Forms\Components\FileUpload::make('image')->image()->imageEditor()->imageEditorMode(2)
-                                ->disk('public')->directory($module)
-                                ->optimize('webp')
+                            CuratorPicker::make('image')->color('gray')
+                                ->buttonLabel('Browse')
+                                ->maxSize($maxFileSize)
+                                ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
                                 ->nullable()->columnSpan([
                                     'sm' => 1,
                                     'xl' => 4,
@@ -142,7 +144,7 @@ class ComponentBuilderResource
                             'xl' => 12,
                         ])
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->label(null)->columnSpan([
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->label(null)->columnSpan([
                                 'sm' => 1,
                                 'xl' => 4,
                             ]),
@@ -188,6 +190,7 @@ class ComponentBuilderResource
             'upload' => 'Upload video',
             'youtube' => 'Youtube url'
         ];
+        $maxFileSize = 1024;
 
         return
             Forms\Components\Builder::make('components:' . $locale)
@@ -197,22 +200,20 @@ class ComponentBuilderResource
                     Block::make('paragraph')
                         ->icon('heroicon-c-bars-4')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active'),
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
                             TinyEditor::make('content')
-                                ->showMenuBar()
-                                ->fileAttachmentsDisk('local')->fileAttachmentsVisibility('public')
-                                ->fileAttachmentsDirectory($module)
-                                ->profile('default')->language(app()->getLocale())->nullable(),
+                                ->profile('simple')->language(app()->getLocale())->nullable(),
                         ]),
                     // Image
                     Block::make('image')
                         ->icon('heroicon-o-photo')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active'),
-                            Forms\Components\FileUpload::make('image')->image()->imageEditor()->imageEditorMode(2)
-                                ->disk('public')->directory($module)
-                                ->optimize('webp')
-                                ->nullable(),
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
+                            CuratorPicker::make('image')->color('gray')
+                                ->buttonLabel('Browse')
+                                ->maxSize($maxFileSize)
+                                ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
+                                ->nullable()
                         ]),
                     // Video
                     Block::make('video')
@@ -222,7 +223,7 @@ class ComponentBuilderResource
                             'xl' => 12,
                         ])
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->label(null)->columnSpan([
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->label(null)->columnSpan([
                                 'sm' => 1,
                                 'xl' => 4,
                             ]),
@@ -252,7 +253,7 @@ class ComponentBuilderResource
                     Block::make('quote')
                         ->icon('heroicon-o-chat-bubble-oval-left')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->columnSpan([
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->columnSpan([
                                 'sm' => 1,
                                 'xl' => 12,
                             ]),

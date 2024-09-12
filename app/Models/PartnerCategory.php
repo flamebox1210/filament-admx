@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
-class ArticleCategory extends Model
+class PartnerCategory extends Model
 {
     use HasFactory, SoftDeletes, HasTranslations;
 
@@ -35,5 +35,4 @@ class ArticleCategory extends Model
         'title',
         'slug',
     ];
-
 }

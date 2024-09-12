@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ArticleCategoryResource\Pages;
-use App\Filament\Resources\ArticleCategoryResource\RelationManagers;
-use App\Models\ArticleCategory;
+use App\Filament\Resources\PartnerCategoryResource\Pages;
+use App\Filament\Resources\PartnerCategoryResource\RelationManagers;
+use App\Models\PartnerCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -17,15 +17,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 
-class ArticleCategoryResource extends Resource
+class PartnerCategoryResource extends Resource
 {
     use Translatable;
 
-    protected static ?string $model = ArticleCategory::class;
+    protected static ?string $model = PartnerCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Categories';
-    protected static ?string $navigationGroup = 'Article Management';
+    protected static ?string $navigationGroup = 'Partner Management';
     protected static ?int $navigationSort = 0;
 
     public static function form(Form $form): Form
@@ -77,7 +77,7 @@ class ArticleCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageArticleCategories::route('/'),
+            'index' => Pages\ManagePartnerCategories::route('/'),
         ];
     }
 

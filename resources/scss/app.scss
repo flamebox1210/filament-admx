@@ -7,6 +7,7 @@
 
 body {
     @apply font-sans font-light;
+    font-family: Mulish;
 }
 
 /* width */
@@ -32,7 +33,7 @@ body {
     .fi-page {
 
         .fi-form-actions {
-            @apply fixed bottom-4 left-0 right-0 mx-auto max-w-max justify-center p-2 shadow-sm bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700;
+            @apply fixed bottom-4 left-0 right-0 mx-auto max-w-max justify-center p-2 shadow-sm bg-white dark:bg-gray-600 rounded-xl border border-gray-200 dark:border-gray-700;
 
             .fi-ac {
                 @apply mx-auto text-center justify-center;
@@ -49,7 +50,7 @@ body {
 
     .tox-dialog__header, .tox-dialog__footer {
 
-        @apply dark:bg-neutral-800;
+        @apply dark:bg-neutral-600;
     }
 
     .tox-listboxfield .tox-listbox--select, .tox-textarea, .tox-textfield, .tox-toolbar-textfield {
@@ -57,7 +58,7 @@ body {
     }
 
     .tox-dialog {
-        @apply dark:bg-neutral-800 dark:border-neutral-600;
+        @apply dark:bg-neutral-600 dark:border-neutral-600;
     }
 
     .tox-editor-container,
@@ -85,49 +86,64 @@ header.fi-sidebar-header {
 
 aside.fi-sidebar {
     @apply bg-primary-600 dark:bg-primary-600 text-white;
-    .fi-sidebar-group-button {
-        .fi-sidebar-group-label {
-            @apply text-gray-200;
-        }
-
-        svg {
-            @apply text-gray-200;
-        }
-    }
-
-    .fi-sidebar-item:not(.fi-active) {
-        .fi-sidebar-item-label {
-            @apply text-white;
-        }
-
-        svg {
-            @apply text-white;
-        }
-
-        &:hover {
-            .fi-sidebar-item-button {
-                @apply dark:bg-gray-100;
-            }
-
-            .fi-sidebar-item-label {
-                @apply text-primary-600;
+    .fi-sidebar-nav {
+        .fi-sidebar-group-button {
+            .fi-sidebar-group-label {
+                @apply text-gray-200;
             }
 
             svg {
-                @apply text-primary-600 #{!important};
+                @apply text-gray-200;
             }
         }
-    }
 
-    .fi-sidebar-item.fi-active {
-        .fi-sidebar-item-button {
-            @apply dark:bg-gray-100;
+        .fi-sidebar-item:not(.fi-active) {
+            .fi-sidebar-item-label {
+                @apply text-white;
+            }
+
+            svg {
+                @apply text-white;
+            }
+
+            &:hover {
+                .fi-sidebar-item-button {
+                    @apply dark:bg-gray-100;
+                }
+
+                .fi-sidebar-item-label {
+                    @apply text-primary-600 dark:text-primary-600 #{!important};
+                }
+
+                svg {
+                    @apply text-primary-600 dark:text-primary-600 #{!important};
+                }
+            }
         }
-    }
 
-    .fi-icon-btn {
-        svf {
-            @apply fill-white;
+        .fi-sidebar-item.fi-active {
+
+            .fi-sidebar-item-label {
+                @apply text-primary-600 dark:text-primary-600 #{!important};
+            }
+
+            .fi-sidebar-item-button {
+                @apply dark:bg-gray-100 dark:text-primary-600;
+            }
+
+            svg {
+                @apply text-primary-600 dark:text-primary-600 #{!important};
+            }
+        }
+
+        .fi-icon-btn {
+            svg {
+                @apply fill-white;
+            }
+        }
+
+        .fi-badge {
+            @apply dark:bg-custom-50 dark:text-custom-600;
         }
     }
 }

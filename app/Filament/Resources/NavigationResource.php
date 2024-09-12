@@ -65,7 +65,7 @@ class NavigationResource extends Resource
                         'xl' => 12,
                     ])
                     ->schema([
-                        Forms\Components\Toggle::make('is_active')->label(null)->columnSpan([
+                        Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->label(null)->columnSpan([
                             'sm' => 1,
                             'xl' => 4,
                         ]),
@@ -107,7 +107,7 @@ class NavigationResource extends Resource
                             'xl' => 12,
                         ])
                             ->schema([
-                                Forms\Components\Toggle::make('is_active')->label(null)->columnSpan([
+                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->label(null)->columnSpan([
                                     'sm' => 1,
                                     'xl' => 4,
                                 ]),

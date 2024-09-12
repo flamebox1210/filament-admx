@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Section;
@@ -36,6 +37,8 @@ class PageResource extends Resource
     {
         $module = 'pages';
 
+        $maxFileSize = 1024;
+
         return $form->schema([
             // Index
             Tabs::make('Tabs')
@@ -66,11 +69,12 @@ class PageResource extends Resource
                 ]),
             Section::make()
                 ->schema([
-                    Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true)->readOnlyOn('create'),
-                    Forms\Components\FileUpload::make('image')->image()->imageEditor()->imageEditorMode(2)
-                        ->disk('public')->directory($module)
-                        ->optimize('webp')
-                        ->nullable()
+                    Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true)->readOnlyOn('create')->columnSpanFull(),
+                    CuratorPicker::make('image')->color('gray')
+                        ->buttonLabel('Browse')
+                        ->maxSize($maxFileSize)
+                        ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
+                        ->nullable()->columnSpanFull(),
                 ])->columnSpan([
                     'sm' => 2,
                     'xl' => 4,
@@ -86,11 +90,11 @@ class PageResource extends Resource
                 'xl' => 12,
             ])
                 ->schema([
-                    Forms\Components\Toggle::make('is_default')->columnSpan([
+                    Forms\Components\Toggle::make('is_default')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->columnSpan([
                         'sm' => 1,
                         'xl' => 2,
                     ]),
-                    Forms\Components\Toggle::make('is_active')->columnSpan([
+                    Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->columnSpan([
                         'sm' => 1,
                         'xl' => 2,
                     ]),
@@ -109,7 +113,7 @@ class PageResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')->searchable()->sortable(),
-                Tables\Columns\ToggleColumn::make('is_default'),
+                Tables\Columns\ToggleColumn::make('is_default')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
                 Tables\Columns\IconColumn::make('is_active')->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

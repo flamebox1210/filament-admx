@@ -77,7 +77,7 @@ class MasterResource extends Resource
                 'xl' => 12,
             ])
                 ->schema([
-                    Forms\Components\Toggle::make('is_active')->columnSpan([
+                    Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->columnSpan([
                         'sm' => 1,
                         'xl' => 2,
                     ]),

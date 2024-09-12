@@ -49,6 +49,7 @@ class ArticleResource extends Resource
 
         $maxFileSize = 1024;
 
+
         return $form->schema([
             // Index
             Section::make()->columns([
@@ -175,7 +176,7 @@ class ArticleResource extends Resource
                         'sm' => 1,
                         'xl' => 2,
                     ]),
-                    Forms\Components\Toggle::make('is_active')->columnSpan([
+                    Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->columnSpan([
                         'sm' => 1,
                         'xl' => 2,
                     ]),
@@ -196,7 +197,7 @@ class ArticleResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('article_category.title')->label('Category'),
-                Tables\Columns\ToggleColumn::make('is_featured'),
+                Tables\Columns\ToggleColumn::make('is_featured')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
                 Tables\Columns\IconColumn::make('is_active')->boolean(),
                 Tables\Columns\TextColumn::make('published_at')
                     ->date()

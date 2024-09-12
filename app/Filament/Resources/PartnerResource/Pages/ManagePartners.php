@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\NavigationResource\Pages;
+namespace App\Filament\Resources\PartnerResource\Pages;
 
-use App\Filament\Resources\NavigationResource;
+use App\Filament\Resources\PartnerResource;
 use AymanAlhattami\FilamentContextMenu\Actions\GoBackAction;
 use AymanAlhattami\FilamentContextMenu\Actions\GoForwardAction;
 use AymanAlhattami\FilamentContextMenu\Actions\RefreshAction;
@@ -10,12 +10,12 @@ use AymanAlhattami\FilamentContextMenu\Traits\PageHasContextMenu;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 
-class ManageNavigations extends ManageRecords
+class ManagePartners extends ManageRecords
 {
     use ManageRecords\Concerns\Translatable;
     use PageHasContextMenu;
 
-    protected static string $resource = NavigationResource::class;
+    protected static string $resource = PartnerResource::class;
 
     public function getContextMenuActions(): array
     {
@@ -30,8 +30,7 @@ class ManageNavigations extends ManageRecords
     {
         return [
             Actions\LocaleSwitcher::make(),
-            Actions\CreateAction::make()->icon('heroicon-o-plus')->label(__('be.button.create'))
-                ->slideOver(),
+            Actions\CreateAction::make()->icon('heroicon-o-plus')->label(__('be.button.create')),
         ];
     }
 }
