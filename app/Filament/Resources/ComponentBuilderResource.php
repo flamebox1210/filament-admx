@@ -25,7 +25,7 @@ class ComponentBuilderResource
             'upload' => 'Upload video',
             'youtube' => 'Youtube url'
         ];
-        $maxFileSize = 1024;
+        $maxFileSize = config('filament.max_file_size');
 
         return
             Forms\Components\Builder::make('components:' . $locale)
@@ -190,7 +190,7 @@ class ComponentBuilderResource
             'upload' => 'Upload video',
             'youtube' => 'Youtube url'
         ];
-        $maxFileSize = 1024;
+        $maxFileSize = config('filament.max_file_size');
 
         return
             Forms\Components\Builder::make('components:' . $locale)

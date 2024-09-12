@@ -32,7 +32,7 @@ class PartnerResource extends Resource
     public static function form(Form $form): Form
     {
         $module = 'partners';
-        $maxFileSize = 1024;
+        $maxFileSize = config('filament.max_file_size');
 
         return $form->columns([
             'sm' => 2,
@@ -86,7 +86,7 @@ class PartnerResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

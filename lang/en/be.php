@@ -13,8 +13,10 @@ return [
         ]
     ],
     'button' => [
+        'view' => 'View',
         'create' => 'Create',
         'edit' => 'Edit',
+        'download' => 'Download',
     ]
 
 ];

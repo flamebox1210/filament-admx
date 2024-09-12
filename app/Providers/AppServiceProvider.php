@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
             'Navigations',
             'Pages',
             'Article Management',
+            'Partner Management',
             'Data Management',
             'User Management',
         ]);

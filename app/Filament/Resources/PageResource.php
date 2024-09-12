@@ -37,7 +37,7 @@ class PageResource extends Resource
     {
         $module = 'pages';
 
-        $maxFileSize = 1024;
+        $maxFileSize = config('filament.max_file_size');
 
         return $form->schema([
             // Index

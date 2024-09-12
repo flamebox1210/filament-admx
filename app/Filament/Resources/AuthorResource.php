@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AuthorResource\Pages;
 use App\Filament\Resources\AuthorResource\RelationManagers;
 use App\Models\Author;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
+use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Form;
@@ -25,6 +27,7 @@ class AuthorResource extends Resource
     public static function form(Form $form): Form
     {
         $module = 'authors';
+        $maxFileSize = config('filament.max_file_size');
 
         return $form->columns([
             'sm' => 2,
@@ -34,7 +37,11 @@ class AuthorResource extends Resource
                 'sm' => 2,
                 'xl' => 3,
             ])->schema([
-                Forms\Components\FileUpload::make('image')->avatar(),
+                CuratorPicker::make('image')->color('gray')
+                    ->buttonLabel('Browse')
+                    ->maxSize($maxFileSize)
+                    ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
+                    ->nullable()->columnSpanFull(),
             ]),
             Grid::make()->columnSpan([
                 'sm' => 2,
@@ -52,7 +59,7 @@ class AuthorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')->circular()->checkFileExistence(true),
+                CuratorColumn::make('image')->size(60)->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('position')

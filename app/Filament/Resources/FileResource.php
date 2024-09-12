@@ -2,43 +2,44 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ArticleCategoryResource\Pages;
-use App\Filament\Resources\ArticleCategoryResource\RelationManagers;
-use App\Models\ArticleCategory;
+use App\Filament\Resources\FileResource\Pages;
+use App\Filament\Resources\FileResource\RelationManagers;
+use App\Models\File;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
-class ArticleCategoryResource extends Resource
+class FileResource extends Resource
 {
     use Translatable;
 
-    protected static ?string $model = ArticleCategory::class;
+    protected static ?string $model = File::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel = 'Categories';
-    protected static ?string $navigationGroup = 'Article Management';
-    protected static ?int $navigationSort = 0;
+    protected static ?string $navigationIcon = 'heroicon-o-document-chart-bar';
+    protected static ?string $navigationGroup = 'Data Management';
+
+    protected static ?int $navigationSort = 3;
+    protected static ?string $recordTitleAttribute = 'title';
 
     public static function form(Form $form): Form
     {
+        $module = 'files';
+        $maxFileSize = config('filament.max_file_size');
+
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')->required()->live(onBlur: true)
-                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state, $context) {
-                        if ($context == 'create')
-                            $set('slug', Str::slug($state));
-                    }),
-                Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true)->readOnlyOn('create'),
-
+                Forms\Components\TextInput::make('filename')->columnSpanFull(),
+                Forms\Components\FileUpload::make('file')
+                    ->required()->maxSize($maxFileSize)->directory($module)
+                    ->preserveFilenames()
+                    ->acceptedFileTypes(['application/pdf'])
+                    ->downloadable()->columnSpanFull(),
             ]);
     }
 
@@ -46,7 +47,15 @@ class ArticleCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('filename')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('file')->markdown()->alignCenter()
+                    ->icon('heroicon-o-link')
+                    ->formatStateUsing(fn(string $state): string => "<a target='_blank' href='" . Storage::disk('public')->url($state) . "'>" . __('be.button.download') . "</a>"),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -77,7 +86,7 @@ class ArticleCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageArticleCategories::route('/'),
+            'index' => Pages\ManageFiles::route('/'),
         ];
     }
 

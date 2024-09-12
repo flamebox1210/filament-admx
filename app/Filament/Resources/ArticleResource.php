@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ArticleResource\Pages;
+use App\Filament\Resources\ArticleResource\RelationManagers\ArticleCategoriesRelationManager;
+use App\Filament\Resources\KnowledgeResource\RelationManagers\FilesRelationManager;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\Author;
@@ -47,7 +49,7 @@ class ArticleResource extends Resource
     {
         $module = 'articles';
 
-        $maxFileSize = 1024;
+        $maxFileSize = config('filament.max_file_size');
 
 
         return $form->schema([
@@ -200,7 +202,7 @@ class ArticleResource extends Resource
                 Tables\Columns\ToggleColumn::make('is_featured')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
                 Tables\Columns\IconColumn::make('is_active')->boolean(),
                 Tables\Columns\TextColumn::make('published_at')
-                    ->date()
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('created_at')
@@ -240,7 +242,7 @@ class ArticleResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //ArticleCategoriesRelationManager::class
+            FilesRelationManager::class
         ];
     }
 

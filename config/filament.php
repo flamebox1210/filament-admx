@@ -85,4 +85,15 @@ return [
 
     'livewire_loading_delay' => 'default',
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Filament Max Size File
+    |--------------------------------------------------------------------------
+    |
+    | This sets the max size file upload in filament file upload form cms
+    |
+    */
+    'max_size_file' => 5240000
+
 ];

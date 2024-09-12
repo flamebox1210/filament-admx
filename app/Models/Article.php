@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
@@ -71,6 +72,11 @@ class Article extends Model
     public function article_author(): HasOne
     {
         return $this->hasOne(Author::class, 'id', 'author_id');
+    }
+
+    public function files(): BelongsToMany
+    {
+        return $this->belongsToMany(File::class, 'article_files');
     }
 
     public function getActivitylogOptions(): LogOptions
