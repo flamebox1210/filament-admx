@@ -49,8 +49,6 @@ class ArticleResource extends Resource
     {
         $module = 'articles';
 
-        $maxFileSize = config('filament.max_file_size');
-
 
         return $form->schema([
             // Index
@@ -134,7 +132,7 @@ class ArticleResource extends Resource
                 ]),
                 CuratorPicker::make('image')->color('gray')
                     ->buttonLabel('Browse')
-                    ->maxSize($maxFileSize)
+                    ->maxSize(5240000)
                     ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
                     ->nullable()->columnSpan([
                         'sm' => 2,
@@ -174,7 +172,7 @@ class ArticleResource extends Resource
                 'xl' => 12,
             ])
                 ->schema([
-                    Forms\Components\Toggle::make('is_featured')->columnSpan([
+                    Forms\Components\Toggle::make('is_featured')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->columnSpan([
                         'sm' => 1,
                         'xl' => 2,
                     ]),

@@ -23,6 +23,7 @@ return new class extends Migration {
             }
             $table->json('meta_title')->nullable();
             $table->json('meta_description')->nullable();
+            $table->string('template')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

@@ -26,6 +26,14 @@ class InquiryResource extends Resource
     protected static ?string $navigationGroup = 'Data Management';
     protected static ?int $navigationSort = 0;
 
+    /**
+     * @return string|null
+     */
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form

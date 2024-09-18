@@ -52,12 +52,12 @@ class AdminPanelProvider extends PanelProvider
             ->font('Lato', provider: GoogleFontProvider::class)
             ->viteTheme('resources/scss/app.scss')
             ->colors([
-                'danger' => Color::Rose,
+                'danger' => Color::Red,
                 'gray' => Color::Gray,
-                'info' => Color::Blue,
-                'primary' => Color::Indigo,
+                'info' => Color::Indigo,
+                'primary' => Color::Blue,
                 'success' => Color::Emerald,
-                'warning' => Color::Orange,
+                'warning' => Color::Yellow,
             ])
             ->databaseNotifications()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -105,7 +105,7 @@ class AdminPanelProvider extends PanelProvider
             * plugins
             */
             ->plugins([
-                FilamentProgressbarPlugin::make()->color('#6366f1'),
+                FilamentProgressbarPlugin::make()->color('#CA8A04'),
                 FilamentShieldPlugin::make()->gridColumns([
                     'default' => 1,
                     'sm' => 2,

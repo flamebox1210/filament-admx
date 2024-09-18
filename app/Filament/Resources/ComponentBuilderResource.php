@@ -25,17 +25,65 @@ class ComponentBuilderResource
             'upload' => 'Upload video',
             'youtube' => 'Youtube url'
         ];
-        $maxFileSize = config('filament.max_file_size');
+
+        $socialMediaOptions = [
+            'facebook' => 'Facebook',
+            'x' => 'X',
+            'linkedin' => 'Linkedin',
+            'instagram' => 'Instagram',
+            'youtube' => 'Youtube'
+        ];
 
         return
             Forms\Components\Builder::make('components:' . $locale)
                 ->label('components')
                 ->blocks([
+                    // Banner
+                    Block::make('banner')
+                        ->icon('heroicon-o-viewfinder-circle')
+                        ->columns([
+                            'sm' => 1,
+                            'xl' => 12,
+                        ])->schema([
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                                'sm' => 1,
+                                'xl' => 4,
+                            ]),
+                            Forms\Components\TextInput::make('title')->columnSpanFull(),
+                            CuratorPicker::make('image')->color('gray')
+                                ->buttonLabel('Browse')
+                                ->maxSize(5240000)
+                                ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
+                                ->nullable()->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 4,
+                                ]),
+                            Forms\Components\TextInput::make('button_label')->columnSpan([
+                                'sm' => 1,
+                                'xl' => 4,
+                            ]),
+                            Forms\Components\TextInput::make('url')->prefixIcon('heroicon-o-link')->columnSpan([
+                                'sm' => 1,
+                                'xl' => 4,
+                            ]),
+                        ]),
+                    // Partners
+                    Block::make('partners')
+                        ->icon('heroicon-o-rectangle-group')
+                        ->schema([
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
+                            Forms\Components\TextInput::make('title'),
+                            Forms\Components\TextInput::make('info')
+                                ->label('')
+                                ->prefixIcon('heroicon-o-information-circle')
+                                ->placeholder(__('be.info.modular', ['attribute' => 'partners']))->readOnly()
+
+                        ]),
                     // Accordion
                     Block::make('accordion')
-                        ->icon('heroicon-m-queue-list')
+                        ->icon('heroicon-o-queue-list')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
                             Forms\Components\TextInput::make('title'),
                             Forms\Components\Repeater::make('items')
                                 ->schema([
@@ -44,11 +92,73 @@ class ComponentBuilderResource
                                 ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
                                 ->collapsible()->collapsed(),
                         ]),
+                    // Contact
+                    Block::make('contact')
+                        ->icon('heroicon-o-phone')
+                        ->schema([
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->columnSpanFull(),
+                            Forms\Components\TextInput::make('title')->columnSpanFull(),
+                            Grid::make()->schema([
+                                Grid::make()->schema([
+                                    Forms\Components\Repeater::make('social_media')->columnSpanFull()
+                                        ->schema([
+                                            Grid::make()->schema([
+                                                Forms\Components\Select::make('site')->options($socialMediaOptions)->native(false)->columnSpan([
+                                                    'sm' => 1,
+                                                    'xl' => 6,
+                                                ]),
+                                                Forms\Components\TextInput::make('url')->prefixIcon('heroicon-o-link')->columnSpan([
+                                                    'sm' => 1,
+                                                    'xl' => 6,
+                                                ]),
+                                            ])
+                                        ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
+                                        ->collapsible()->collapsed(),
+                                ])->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 4,
+                                ]),
+                                Grid::make()->schema([
+                                    Forms\Components\Repeater::make('phones')->columnSpanFull()
+                                        ->schema([
+                                            Grid::make()->schema([
+                                                Forms\Components\TextInput::make('phone')->columnSpanFull(),
+                                            ])->columns([
+                                                'sm' => 1,
+                                                'xl' => 12,
+                                            ])
+                                        ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
+                                        ->collapsible()->collapsed(),
+                                ])->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 4,
+                                ]),
+                                Grid::make()->schema([
+                                    Forms\Components\Repeater::make('emails')->columnSpanFull()
+                                        ->schema([
+                                            Grid::make()->schema([
+                                                Forms\Components\TextInput::make('email')->columnSpanFull(),
+                                            ])->columns([
+                                                'sm' => 1,
+                                                'xl' => 12,
+                                            ])
+                                        ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
+                                        ->collapsible()->collapsed(),
+                                ])->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 4,
+                                ]),
+                                Forms\Components\Textarea::make('embed')->label('Embed maps')->autosize()->columnSpanFull(),
+                            ])->columns([
+                                'sm' => 1,
+                                'xl' => 12,
+                            ]),
+                        ]),
                     // Carousel
                     Block::make('carousel')
                         ->icon('heroicon-o-photo')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
                             Forms\Components\Repeater::make('items')
                                 ->columns([
                                     'sm' => 1,
@@ -62,7 +172,7 @@ class ComponentBuilderResource
                                         ])->schema([
                                             CuratorPicker::make('image')->color('gray')
                                                 ->buttonLabel('Browse')
-                                                ->maxSize($maxFileSize)
+                                                ->maxSize(5240000)
                                                 ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
                                                 ->nullable()
                                                 ->columnSpanFull()
@@ -98,11 +208,66 @@ class ComponentBuilderResource
                                 ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
                                 ->collapsible()->collapsed(),
                         ]),
+                    // Testimonial
+                    Block::make('testimonial')
+                        ->icon('heroicon-o-speaker-wave')
+                        ->schema([
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
+                            Forms\Components\TextInput::make('title'),
+                            Forms\Components\Repeater::make('items')
+                                ->columns([
+                                    'sm' => 1,
+                                    'xl' => 12,
+                                ])
+                                ->schema([
+                                    Grid::make()
+                                        ->columnSpan([
+                                            'sm' => 1,
+                                            'xl' => 4,
+                                        ])->schema([
+                                            CuratorPicker::make('image')->color('gray')
+                                                ->buttonLabel('Browse')
+                                                ->maxSize(5240000)
+                                                ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
+                                                ->nullable()
+                                                ->columnSpanFull()
+                                        ]),
+                                    Grid::make()
+                                        ->columnSpan([
+                                            'sm' => 1,
+                                            'xl' => 8,
+                                        ])->schema([
+                                            Grid::make()
+                                                ->columns([
+                                                    'sm' => 1,
+                                                    'xl' => 12,
+                                                ])->schema([
+                                                    Forms\Components\TextInput::make('title')->columnSpan([
+                                                        'sm' => 1,
+                                                        'xl' => 12,
+                                                    ]),
+                                                    Forms\Components\TextInput::make('youtube_url')->url()
+                                                        ->prefixIcon('heroicon-o-link')
+                                                        ->placeholder('https://www.youtube.com/watch?v=[YOUR_YOUTUBE_ID]')
+                                                        ->nullable()->columnSpan([
+                                                            'sm' => 1,
+                                                            'xl' => 12,
+                                                        ]),
+                                                    Forms\Components\ViewField::make('youtube_url')
+                                                        ->view('filament.forms.components.youtube-preview')->columnSpan([
+                                                            'sm' => 1,
+                                                            'xl' => 12,
+                                                        ]),
+                                                ]),
+                                        ])
+                                ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
+                                ->collapsible()->collapsed(),
+                        ]),
                     // Paragraph
                     Block::make('paragraph')
                         ->icon('heroicon-c-bars-4')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
                             TinyEditor::make('content')
                                 ->profile('simple')->language(app()->getLocale())->nullable(),
                         ]),
@@ -113,25 +278,48 @@ class ComponentBuilderResource
                             'sm' => 1,
                             'xl' => 12,
                         ])->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->label(null)->columnSpan([
+                            Grid::make()->schema([
+                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 12,
+                                ]),
+                                CuratorPicker::make('image')->color('gray')
+                                    ->buttonLabel('Browse')
+                                    ->maxSize(5240000)
+                                    ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
+                                    ->nullable()->columnSpan([
+                                        'sm' => 1,
+                                        'xl' => 12,
+                                    ]),
+                                Forms\Components\TextInput::make('button_label')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 12,
+                                ]),
+                                Forms\Components\TextInput::make('url')->prefixIcon('heroicon-o-link')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 12,
+                                ]),
+                            ])->columnSpan([
                                 'sm' => 1,
                                 'xl' => 4,
                             ]),
-                            Forms\Components\Radio::make('position')->inline()->label(false)->options($textImageOptions)
+                            Grid::make()->schema([
+                                Forms\Components\Radio::make('position')->inline()->label(false)->options($textImageOptions)
+                                    ->columnSpan([
+                                        'sm' => 1,
+                                        'xl' => 12,
+                                    ]),
+                                Forms\Components\TextInput::make('title')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 12,
+                                ]),
+                                TinyEditor::make('content')
+                                    ->profile('simple')->language(app()->getLocale())->nullable()->columnSpan([
+                                        'sm' => 1,
+                                        'xl' => 12,
+                                    ]),
+                            ])
                                 ->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 8,
-                                ]),
-                            CuratorPicker::make('image')->color('gray')
-                                ->buttonLabel('Browse')
-                                ->maxSize($maxFileSize)
-                                ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
-                                ->nullable()->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 4,
-                                ]),
-                            TinyEditor::make('content')
-                                ->profile('simple')->language(app()->getLocale())->nullable()->columnSpan([
                                     'sm' => 1,
                                     'xl' => 8,
                                 ]),
@@ -144,7 +332,7 @@ class ComponentBuilderResource
                             'xl' => 12,
                         ])
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->label(null)->columnSpan([
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
                                 'sm' => 1,
                                 'xl' => 4,
                             ]),
@@ -190,7 +378,6 @@ class ComponentBuilderResource
             'upload' => 'Upload video',
             'youtube' => 'Youtube url'
         ];
-        $maxFileSize = config('filament.max_file_size');
 
         return
             Forms\Components\Builder::make('components:' . $locale)
@@ -200,7 +387,7 @@ class ComponentBuilderResource
                     Block::make('paragraph')
                         ->icon('heroicon-c-bars-4')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
                             TinyEditor::make('content')
                                 ->profile('simple')->language(app()->getLocale())->nullable(),
                         ]),
@@ -208,10 +395,10 @@ class ComponentBuilderResource
                     Block::make('image')
                         ->icon('heroicon-o-photo')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
                             CuratorPicker::make('image')->color('gray')
                                 ->buttonLabel('Browse')
-                                ->maxSize($maxFileSize)
+                                ->maxSize(5240000)
                                 ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
                                 ->nullable()
                         ]),
@@ -223,7 +410,7 @@ class ComponentBuilderResource
                             'xl' => 12,
                         ])
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->label(null)->columnSpan([
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
                                 'sm' => 1,
                                 'xl' => 4,
                             ]),
@@ -253,7 +440,7 @@ class ComponentBuilderResource
                     Block::make('quote')
                         ->icon('heroicon-o-chat-bubble-oval-left')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-m-check')->columnSpan([
+                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->columnSpan([
                                 'sm' => 1,
                                 'xl' => 12,
                             ]),

@@ -90,6 +90,7 @@ class NavigationResource extends Resource
                         Forms\Components\Select::make('page')->nullable()
                             ->options(Page::all()->pluck('title', 'id'))
                             ->hidden(fn(Get $get) => $get('type') != 0)
+                            ->native(false)
                             ->columnSpan([
                                 'sm' => 1,
                                 'xl' => 12,
@@ -133,6 +134,7 @@ class NavigationResource extends Resource
                                 Forms\Components\Select::make('page')->nullable()
                                     ->options(Page::all()->pluck('title', 'id'))
                                     ->hidden(fn(Get $get) => $get('type') != 0)
+                                    ->native(false)
                                     ->columnSpan([
                                         'sm' => 1,
                                         'xl' => 12,

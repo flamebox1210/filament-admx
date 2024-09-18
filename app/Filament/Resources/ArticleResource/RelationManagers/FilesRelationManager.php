@@ -17,13 +17,12 @@ class FilesRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         $module = 'files';
-        $maxFileSize = config('filament.max_file_size');
 
         return $form
             ->schema([
                 Forms\Components\TextInput::make('filename')->columnSpanFull(),
                 Forms\Components\FileUpload::make('file')
-                    ->required()->maxSize($maxFileSize)->directory($module)
+                    ->required()->maxSize(5240000)->directory($module)
                     ->preserveFilenames()
                     ->acceptedFileTypes(['application/pdf'])
                     ->downloadable()->columnSpanFull(),

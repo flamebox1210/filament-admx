@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TemplatePage;
 use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
@@ -33,11 +34,17 @@ class PageResource extends Resource
     protected static ?int $navigationSort = 1;
     protected static ?string $recordTitleAttribute = 'title';
 
+    /**
+     * @return string|null
+     */
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         $module = 'pages';
-
-        $maxFileSize = config('filament.max_file_size');
 
         return $form->schema([
             // Index
@@ -72,9 +79,10 @@ class PageResource extends Resource
                     Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true)->readOnlyOn('create')->columnSpanFull(),
                     CuratorPicker::make('image')->color('gray')
                         ->buttonLabel('Browse')
-                        ->maxSize($maxFileSize)
+                        ->maxSize(5240000)
                         ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
                         ->nullable()->columnSpanFull(),
+                        Forms\Components\Select::make('template')->options(TemplatePage::class)->native(false)
                 ])->columnSpan([
                     'sm' => 2,
                     'xl' => 4,

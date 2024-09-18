@@ -29,10 +29,17 @@ class PartnerResource extends Resource
     protected static ?int $navigationSort = 1;
     protected static ?string $recordTitleAttribute = 'title';
 
+    /**
+     * @return string|null
+     */
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         $module = 'partners';
-        $maxFileSize = config('filament.max_file_size');
 
         return $form->columns([
             'sm' => 2,
@@ -44,7 +51,7 @@ class PartnerResource extends Resource
             ])->schema([
                 CuratorPicker::make('image')->color('gray')
                     ->buttonLabel('Browse')
-                    ->maxSize($maxFileSize)
+                    ->maxSize(5240000)
                     ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
                     ->nullable()->columnSpanFull()
             ]),

@@ -14,7 +14,7 @@ class ManageFiles extends ManageRecords
 {
     use ManageRecords\Concerns\Translatable;
     use PageHasContextMenu;
-    
+
     protected static string $resource = FileResource::class;
 
     public function getContextMenuActions(): array

@@ -27,7 +27,6 @@ class AuthorResource extends Resource
     public static function form(Form $form): Form
     {
         $module = 'authors';
-        $maxFileSize = config('filament.max_file_size');
 
         return $form->columns([
             'sm' => 2,
@@ -39,7 +38,7 @@ class AuthorResource extends Resource
             ])->schema([
                 CuratorPicker::make('image')->color('gray')
                     ->buttonLabel('Browse')
-                    ->maxSize($maxFileSize)
+                    ->maxSize(5240000)
                     ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
                     ->nullable()->columnSpanFull(),
             ]),
