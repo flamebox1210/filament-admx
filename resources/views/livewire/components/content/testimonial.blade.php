@@ -12,7 +12,7 @@
                                 <div class="cursor-pointer"
                                      wire:click.prevent="openModal('{{ $item['title'] }}','{{ $item['youtube_url'] }}')">
                                     <svg
-                                        class="absolute z-20 w-[60px] h-[60px] text-white left-0 right-0 top-12 mx-auto text-center scale-100 hover:scale-[1.1] transition duration-200 ease-in-out"
+                                        class="absolute z-20 w-[60px] h-[60px] text-white left-0 right-0 top-[35%] lg:top-[35%] mx-auto text-center scale-100 hover:scale-[1.1] transition duration-200 ease-in-out"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -46,9 +46,9 @@
                     </svg>
                 </button>
             </div>
-            <div class="relative top-16 w-full max-w-[80%] max-h-full mx-auto" x-data
-                 @click.away="@this.set('isOpenModal', false)">
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden aspect-video">
+            <div class="relative top-16 w-full max-w-full lg:max-w-[80%] max-h-full mx-auto" x-data
+                 @click.away="@this.set('isOpenModal', false);">
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden aspect-[1/2] lg:aspect-video">
                     <iframe width="100%" height="540" class="object-cover w-full h-full"
                             src="{{ $youtube }}?autoplay=1"
                             title="YouTube video player" frameborder="0"

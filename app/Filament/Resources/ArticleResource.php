@@ -72,6 +72,7 @@ class ArticleResource extends Resource
                 Forms\Components\Select::make('category_id')->options(ArticleCategory::all()->pluck('title', 'id'))->required()
                     ->native(false)
                     ->label('Categories')
+                    ->searchable()
                     ->relationship(name: 'article_category', titleAttribute: 'title')
                     ->createOptionForm([
                         Forms\Components\TextInput::make('title')->required()->live(onBlur: true)
@@ -215,7 +216,9 @@ class ArticleResource extends Resource
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
                 SelectFilter::make('category_id')
+                    ->label('Categories')
                     ->options(ArticleCategory::all()->pluck('title', 'id'))
+                    ->searchable()
                     ->native(false),
                 SelectFilter::make('tags')
                     ->options(Tag::all()->pluck('title', 'id'))

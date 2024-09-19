@@ -9,7 +9,17 @@ $(() => {
     const swiper = new Swiper(".swiper-cards", {
         modules: [Autoplay, Navigation, Pagination],
         effect: "cards",
-        slidesPerView: 4,
+        breakpoints: {
+            640: {
+                slidesPerView: 1,
+            },
+            768: {
+                slidesPerView: 2,
+            },
+            1024: {
+                slidesPerView: 4,
+            },
+        },
         autoplay: {
             delay: 3000,
         },

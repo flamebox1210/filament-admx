@@ -2,4 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './components/header';
+iframe {
+    @apply max-w-full;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-neutral-200;
+    border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-neutral-500;
+    border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-600;
+}
+

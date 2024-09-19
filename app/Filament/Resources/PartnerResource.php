@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PartnerResource\Pages;
 use App\Filament\Resources\PartnerResource\RelationManagers;
 use App\Models\Partner;
+use App\Models\PartnerCategory;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Filament\Forms;
@@ -13,6 +14,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -52,6 +54,7 @@ class PartnerResource extends Resource
                 CuratorPicker::make('image')->color('gray')
                     ->buttonLabel('Browse')
                     ->maxSize(5240000)
+                    ->listDisplay(true)
                     ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
                     ->nullable()->columnSpanFull()
             ]),
@@ -73,6 +76,11 @@ class PartnerResource extends Resource
                     ]),
                 ]),
                 Forms\Components\TextInput::make('url')->url()->prefixIcon('heroicon-o-link')->placeholder('https://...')->columnSpanFull(),
+                Forms\Components\Select::make('category_id')->options(PartnerCategory::all()->pluck('title', 'id'))->required()
+                    ->native(false)
+                    ->label('Categories')
+                    ->searchable()
+                    ->columnSpanFull(),
             ]),
         ]);
     }
@@ -83,9 +91,10 @@ class PartnerResource extends Resource
             ->columns([
                 CuratorColumn::make('image')->size(60)->circular(),
                 Tables\Columns\TextColumn::make('title')
+                    ->description(fn(Partner $record): string => $record->url)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('url')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('partner_category.title')->label('Category'),
+                Tables\Columns\IconColumn::make('is_active')->boolean(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -101,6 +110,11 @@ class PartnerResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('category_id')
+                    ->label('Categories')
+                    ->options(PartnerCategory::all()->pluck('title', 'id'))
+                    ->searchable()
+                    ->native(false),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

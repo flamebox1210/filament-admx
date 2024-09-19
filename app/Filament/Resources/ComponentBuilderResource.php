@@ -169,7 +169,7 @@ class ComponentBuilderResource
                                                     'xl' => 6,
                                                 ]),
                                             ])
-                                        ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
+                                        ])->itemLabel(fn(array $state): ?string => $state['site'] ?? null)
                                         ->collapsible()->collapsed(),
                                 ])->columnSpan([
                                     'sm' => 1,
@@ -184,7 +184,7 @@ class ComponentBuilderResource
                                                 'sm' => 1,
                                                 'xl' => 12,
                                             ])
-                                        ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
+                                        ])->itemLabel(fn(array $state): ?string => $state['phone'] ?? null)
                                         ->collapsible()->collapsed(),
                                 ])->columnSpan([
                                     'sm' => 1,
@@ -199,7 +199,7 @@ class ComponentBuilderResource
                                                 'sm' => 1,
                                                 'xl' => 12,
                                             ])
-                                        ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
+                                        ])->itemLabel(fn(array $state): ?string => $state['email'] ?? null)
                                         ->collapsible()->collapsed(),
                                 ])->columnSpan([
                                     'sm' => 1,
