@@ -30,6 +30,7 @@ class Page extends Model
     protected $fillable = [
         'is_default',
         'is_active',
+        'template',
         'image',
         'title',
         'slug',

@@ -38,10 +38,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('cp')
             ->defaultThemeMode(ThemeMode::Light)
-            ->favicon(asset('logo.svg'))
+            ->favicon(asset('favicon.png'))
             ->brandName('Admin Panel')
-            ->brandLogo(asset('logo.svg'))
-            ->darkModeBrandLogo(asset('logo-dark.svg'))
+            ->brandLogo(asset('logo.png'))
+            ->darkModeBrandLogo(asset('logo-dark.png'))
             ->brandLogoHeight('2rem')
             ->login()
             //->passwordReset()
@@ -54,8 +54,8 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'danger' => Color::Red,
                 'gray' => Color::Gray,
-                'info' => Color::Indigo,
-                'primary' => Color::Blue,
+                'info' => Color::Sky,
+                'primary' => Color::Teal,
                 'success' => Color::Emerald,
                 'warning' => Color::Yellow,
             ])

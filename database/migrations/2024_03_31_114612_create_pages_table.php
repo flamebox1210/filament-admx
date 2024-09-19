@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->bigIncrements('id')->primary();
             $table->tinyInteger('is_default')->default(0);
             $table->tinyInteger('is_active')->default(0);
+            $table->string('template')->nullable();
             $table->json('title');
             $table->json('slug');
             $table->json('content')->nullable();
@@ -23,7 +24,6 @@ return new class extends Migration {
             }
             $table->json('meta_title')->nullable();
             $table->json('meta_description')->nullable();
-            $table->string('template')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

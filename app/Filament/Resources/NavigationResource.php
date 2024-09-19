@@ -91,12 +91,21 @@ class NavigationResource extends Resource
                             ->options(Page::all()->pluck('title', 'id'))
                             ->hidden(fn(Get $get) => $get('type') != 0)
                             ->native(false)
+                            ->searchable()
+                            ->columnSpan([
+                                'sm' => 1,
+                                'xl' => 12,
+                            ]),
+                        // Anchor
+                        Forms\Components\TextInput::make('anchor')->nullable()
+                            ->prefix('#')
+                            ->hidden(fn(Get $get) => $get('type') != 0)
                             ->columnSpan([
                                 'sm' => 1,
                                 'xl' => 12,
                             ]),
                         // External Url
-                        Forms\Components\TextInput::make('url')->url()->nullable()
+                        Forms\Components\TextInput::make('url')->label('Url / Uri')->nullable()
                             ->prefixIcon('heroicon-o-link')
                             ->hidden(fn(Get $get) => $get('type') != 1)
                             ->columnSpan([
@@ -135,6 +144,15 @@ class NavigationResource extends Resource
                                     ->options(Page::all()->pluck('title', 'id'))
                                     ->hidden(fn(Get $get) => $get('type') != 0)
                                     ->native(false)
+                                    ->searchable()
+                                    ->columnSpan([
+                                        'sm' => 1,
+                                        'xl' => 12,
+                                    ]),
+                                // Anchor
+                                Forms\Components\TextInput::make('anchor')->nullable()
+                                    ->prefix('#')
+                                    ->hidden(fn(Get $get) => $get('type') != 0)
                                     ->columnSpan([
                                         'sm' => 1,
                                         'xl' => 12,
@@ -176,7 +194,7 @@ class NavigationResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->slideOver(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),

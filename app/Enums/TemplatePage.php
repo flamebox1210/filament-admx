@@ -9,6 +9,7 @@ enum TemplatePage: string implements HasLabel
     case HOME = 'home';
     case FLEXY = 'flexy';
     case ARTICLE = 'articles';
+    case PARTNER = 'partner';
 
     public function getLabel(): string
     {
@@ -16,6 +17,7 @@ enum TemplatePage: string implements HasLabel
             self::HOME => 'Home',
             self::FLEXY => 'Flexy',
             self::ARTICLE => 'Article',
+            self::PARTNER => 'Partner',
         };
     }
 }

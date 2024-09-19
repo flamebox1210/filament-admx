@@ -45,9 +45,18 @@ class ComponentBuilderResource
                             'sm' => 1,
                             'xl' => 12,
                         ])->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                            Grid::make()->columns([
                                 'sm' => 1,
-                                'xl' => 4,
+                                'xl' => 12,
+                            ])->schema([
+                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 2,
+                                ]),
+                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 10,
+                                ]),
                             ]),
                             Forms\Components\TextInput::make('title')->columnSpanFull(),
                             CuratorPicker::make('image')->color('gray')
@@ -68,10 +77,22 @@ class ComponentBuilderResource
                             ]),
                         ]),
                     // Partners
-                    Block::make('partners')
+                    Block::make('partner')->label('Clients')
                         ->icon('heroicon-o-rectangle-group')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
+                            Grid::make()->columns([
+                                'sm' => 1,
+                                'xl' => 12,
+                            ])->schema([
+                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 2,
+                                ]),
+                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 10,
+                                ]),
+                            ]),
                             Forms\Components\TextInput::make('title'),
                             Forms\Components\TextInput::make('info')
                                 ->label('')
@@ -83,7 +104,19 @@ class ComponentBuilderResource
                     Block::make('accordion')
                         ->icon('heroicon-o-queue-list')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
+                            Grid::make()->columns([
+                                'sm' => 1,
+                                'xl' => 12,
+                            ])->schema([
+                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 2,
+                                ]),
+                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 10,
+                                ]),
+                            ]),
                             Forms\Components\TextInput::make('title'),
                             Forms\Components\Repeater::make('items')
                                 ->schema([
@@ -96,8 +129,32 @@ class ComponentBuilderResource
                     Block::make('contact')
                         ->icon('heroicon-o-phone')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->columnSpanFull(),
-                            Forms\Components\TextInput::make('title')->columnSpanFull(),
+                            Grid::make()->columns([
+                                'sm' => 1,
+                                'xl' => 12,
+                            ])->schema([
+                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 2,
+                                ]),
+                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 10,
+                                ]),
+                            ]),
+                            Grid::make()->columns([
+                                'sm' => 1,
+                                'xl' => 12,
+                            ])->schema([
+                                Forms\Components\TextInput::make('title')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 6,
+                                ]),
+                                Forms\Components\TextInput::make('subtitle')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 6,
+                                ]),
+                            ]),
                             Grid::make()->schema([
                                 Grid::make()->schema([
                                     Forms\Components\Repeater::make('social_media')->columnSpanFull()
@@ -155,10 +212,23 @@ class ComponentBuilderResource
                             ]),
                         ]),
                     // Carousel
-                    Block::make('carousel')
-                        ->icon('heroicon-o-photo')
+                    Block::make('carousel')->label('Services')
+                        ->icon('heroicon-o-swatch')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
+                            Grid::make()->columns([
+                                'sm' => 1,
+                                'xl' => 12,
+                            ])->schema([
+                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 2,
+                                ]),
+                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 10,
+                                ]),
+                            ]),
+                            Forms\Components\TextInput::make('title')->columnSpanFull(),
                             Forms\Components\Repeater::make('items')
                                 ->columns([
                                     'sm' => 1,
@@ -209,11 +279,23 @@ class ComponentBuilderResource
                                 ->collapsible()->collapsed(),
                         ]),
                     // Testimonial
-                    Block::make('testimonial')
+                    Block::make('testimonial')->label('Testimonials')
                         ->icon('heroicon-o-speaker-wave')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
-                            Forms\Components\TextInput::make('title'),
+                            Grid::make()->columns([
+                                'sm' => 1,
+                                'xl' => 12,
+                            ])->schema([
+                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 2,
+                                ]),
+                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 10,
+                                ]),
+                            ]),
+                            Forms\Components\TextInput::make('title')->columnSpanFull(),
                             Forms\Components\Repeater::make('items')
                                 ->columns([
                                     'sm' => 1,
@@ -267,7 +349,19 @@ class ComponentBuilderResource
                     Block::make('paragraph')
                         ->icon('heroicon-c-bars-4')
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
+                            Grid::make()->columns([
+                                'sm' => 1,
+                                'xl' => 12,
+                            ])->schema([
+                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 2,
+                                ]),
+                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 10,
+                                ]),
+                            ]),
                             TinyEditor::make('content')
                                 ->profile('simple')->language(app()->getLocale())->nullable(),
                         ]),
@@ -278,11 +372,20 @@ class ComponentBuilderResource
                             'sm' => 1,
                             'xl' => 12,
                         ])->schema([
-                            Grid::make()->schema([
+                            Grid::make()->columns([
+                                'sm' => 1,
+                                'xl' => 12,
+                            ])->schema([
                                 Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
                                     'sm' => 1,
-                                    'xl' => 12,
+                                    'xl' => 2,
                                 ]),
+                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 10,
+                                ]),
+                            ]),
+                            Grid::make()->schema([
                                 CuratorPicker::make('image')->color('gray')
                                     ->buttonLabel('Browse')
                                     ->maxSize(5240000)
@@ -332,9 +435,18 @@ class ComponentBuilderResource
                             'xl' => 12,
                         ])
                         ->schema([
-                            Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                            Grid::make()->columns([
                                 'sm' => 1,
-                                'xl' => 4,
+                                'xl' => 12,
+                            ])->schema([
+                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 2,
+                                ]),
+                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 10,
+                                ]),
                             ]),
                             Forms\Components\Radio::make('type')->inline()->label(false)->options($videoOptions)
                                 ->reactive()
