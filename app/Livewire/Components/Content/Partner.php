@@ -10,6 +10,7 @@ use Livewire\Component;
 
 class Partner extends Component
 {
+    public $page;
     public $query;
     public $data;
 

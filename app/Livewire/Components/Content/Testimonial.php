@@ -8,6 +8,7 @@ use Livewire\Component;
 
 class Testimonial extends Component
 {
+    public $page;
     public $query;
     public $data;
     public $items;

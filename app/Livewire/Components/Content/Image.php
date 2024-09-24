@@ -5,7 +5,7 @@ namespace App\Livewire\Components\Content;
 use Awcodes\Curator\Models\Media;
 use Livewire\Component;
 
-class TextImage extends Component
+class Image extends Component
 {
     public $page;
     public $query;
@@ -20,6 +20,6 @@ class TextImage extends Component
 
     public function render()
     {
-        return view('livewire.components.content.text-image');
+        return view('livewire.components.content.image');
     }
 }

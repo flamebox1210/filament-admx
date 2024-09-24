@@ -19,8 +19,8 @@ return [
         ],
 
         'simple' => [
-            'plugins' => 'advlist autoresize link lists wordcount',
-            'toolbar' => 'formatselect fontsizeselect | removeformat bold italic underline | alignjustify alignright aligncenter alignleft | numlist bullist | link',
+            'plugins' => 'advlist autoresize link lists table wordcount',
+            'toolbar' => 'formatselect fontsizeselect | removeformat bold italic underline | alignjustify alignright aligncenter alignleft | numlist bullist | link | blockquote table',
             'upload_directory' => null,
         ],
 

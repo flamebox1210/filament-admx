@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    &.body-articles {
+        @apply bg-neutral-200;
+    }
+}
+
 iframe {
     @apply max-w-full;
 }
@@ -22,5 +28,65 @@ iframe {
 
 ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-600;
+}
+
+.content-area {
+    @aaply text-md;
+    h1 {
+        @apply text-4xl font-semibold mb-2;
+    }
+
+    h2 {
+        @apply text-3xl font-semibold mb-2;
+    }
+
+    h3 {
+        @apply text-2xl font-semibold mb-2;
+    }
+
+    h4 {
+        @apply text-xl font-medium mb-2;
+    }
+
+    h5 {
+        @apply text-lg font-medium mb-2;
+    }
+
+    p {
+        @apply mb-5 leading-normal;
+    }
+
+    a {
+        @apply text-fe-primary hover:text-black underline underline-offset-4;
+    }
+
+    ul {
+        @apply list-disc mb-5 pl-5;
+    }
+
+    ol {
+        @apply list-decimal mb-5 pl-5;
+    }
+
+    blockquote {
+        @apply border-l-4 border-fe-primary sm:pl-8 md:pl-8 lg:pl-8 mx-auto w-full;
+    }
+
+    table {
+        @apply table-auto w-full mb-5;
+        tr {
+            th, td {
+                @apply p-2  border border-neutral-300;
+            }
+        }
+    }
+}
+
+select {
+    @apply relative;
+    &:after {
+        content: "";
+        @apply block bg-white;
+    }
 }
 

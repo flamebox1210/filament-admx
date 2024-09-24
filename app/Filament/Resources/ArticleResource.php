@@ -127,7 +127,7 @@ class ArticleResource extends Resource
                     'sm' => 2,
                     'xl' => 12,
                 ]),
-                Forms\Components\DatePicker::make('published_at')->columnSpan([
+                Forms\Components\DatePicker::make('published_at')->required()->columnSpan([
                     'sm' => 2,
                     'xl' => 12,
                 ]),
@@ -201,7 +201,7 @@ class ArticleResource extends Resource
                 Tables\Columns\ToggleColumn::make('is_featured')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
                 Tables\Columns\IconColumn::make('is_active')->boolean(),
                 Tables\Columns\TextColumn::make('published_at')
-                    ->dateTime()
+                    ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('created_at')

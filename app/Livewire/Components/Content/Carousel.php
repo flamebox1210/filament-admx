@@ -8,6 +8,7 @@ use Livewire\Component;
 
 class Carousel extends Component
 {
+    public $page;
     public $query;
     public $data;
     public $items;

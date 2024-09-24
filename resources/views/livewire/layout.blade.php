@@ -24,7 +24,7 @@
     <meta property="og:description" content="{{ $page->meta_description ? $page->meta_description : $page->excerpt }}">
     @if(request()->routeIs('fe.article'))
         <meta property="og:image"
-              content="{{ $page->image ? $page->getImagePath('image') : null }}">
+              content="{{ $media ?  $media->media_path : __('img/meta-image.jpg') }}">
     @else
         <meta property="og:image"
               content="{{ asset('logo.png') }}">
@@ -38,7 +38,7 @@
           content="{{ $page->meta_description ? $page->meta_description : $page->excerpt }}">
     @if(request()->routeIs('fe.article'))
         <meta property="twitter:image"
-              content="{{ $page->getImagePath('image') }}">
+              content="{{ $media ?  $media->media_path : __('img/meta-image.jpg') }}">
     @else
         <meta property="twitter:image"
               content="{{ asset('logo.png') }}">
@@ -53,7 +53,7 @@
     @stack('top.script')
 </head>
 
-<body>
+<body class="body-{{ $page->template }}" id="body">
 <livewire:partials.header/>
 <div>
     {{ $slot }}

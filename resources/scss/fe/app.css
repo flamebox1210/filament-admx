@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body.body-articles {
+  @apply bg-neutral-200;
+}
+
+iframe {
+  @apply max-w-full;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-neutral-200;
+  border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-500;
+  border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-600;
+}
+
+.content-area {
+  @aaply text-md;
+}
+.content-area h1 {
+  @apply text-4xl font-semibold mb-2;
+}
+.content-area h2 {
+  @apply text-3xl font-semibold mb-2;
+}
+.content-area h3 {
+  @apply text-2xl font-semibold mb-2;
+}
+.content-area h4 {
+  @apply text-xl font-medium mb-2;
+}
+.content-area h5 {
+  @apply text-lg font-medium mb-2;
+}
+.content-area p {
+  @apply mb-5 leading-normal;
+}
+.content-area a {
+  @apply text-fe-primary hover:text-black underline underline-offset-4;
+}
+.content-area ul {
+  @apply list-disc mb-5 pl-5;
+}
+.content-area ol {
+  @apply list-decimal mb-5 pl-5;
+}
+.content-area blockquote {
+  @apply border-l-4 border-fe-primary sm:pl-8 md:pl-8 lg:pl-8 mx-auto w-full;
+}
+.content-area table {
+  @apply table-auto w-full mb-5;
+}
+.content-area table tr th, .content-area table tr td {
+  @apply p-2 border border-neutral-300;
+}
+
+select {
+  @apply relative;
+}
+select:after {
+  content: "";
+  @apply block bg-white;
+}
+
+/*# sourceMappingURL=app.css.map */

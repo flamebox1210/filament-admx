@@ -7,6 +7,7 @@ use Livewire\Component;
 
 class Banner extends Component
 {
+    public $page;
     public $query;
     public $data;
     public $media;

@@ -25,7 +25,7 @@ class FileResource extends Resource
     protected static ?string $navigationGroup = 'Data Management';
 
     protected static ?int $navigationSort = 3;
-    protected static ?string $recordTitleAttribute = 'title';
+    protected static ?string $recordTitleAttribute = 'filename';
 
     public static function form(Form $form): Form
     {

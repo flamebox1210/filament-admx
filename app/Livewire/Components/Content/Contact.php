@@ -6,6 +6,7 @@ use Livewire\Component;
 
 class Contact extends Component
 {
+    public $page;
     public $query;
     public $data;
 
