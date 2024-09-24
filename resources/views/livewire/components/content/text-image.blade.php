@@ -38,7 +38,7 @@
                     @if($data['url'])
                         <div class="mt-5 max-w-auto">
                             <a class="transition duration-200 py-2 px-3 text-sm bg-neutral-900 hover:bg-neutral-700 scale-100 hover:scale-[1.1] text-white text-center font-semibold uppercase rounded-md shadow-md"
-                               href="{{ $data['url'] }}">{{ $data['button_label'] }}</a>
+                               href="{{ $data['url'] }}" target="_blank">{{ $data['button_label'] }}</a>
                         </div>
                     @endif
                 </div>

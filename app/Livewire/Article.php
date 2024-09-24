@@ -63,6 +63,7 @@ class Article extends Component
 
         // Related
         $relations = \App\Models\Article::where('is_active', true)
+            ->whereNot('id', $article->id)
             ->where('category_id', $article->category_id)
             ->orderBy('published_at', 'desc')->limit(3)->get();
 

@@ -1,7 +1,8 @@
 <div>
     @if($media)
         <div class="max-h-[80vh] overflow-hidden relative">
-            <img src="{{ $media->path }}" alt="{{ $media->caption }}" class="object-cover h-full w-full object-top"/>
+            <img src="{{ Storage::disk('public')->url($media->path) }}" alt="{{ $media->caption }}"
+                 class="object-cover h-full w-full object-top"/>
             <div
                 class="absolute left-0 right-0 top-[50%] max-w-[1200px] mx-auto items-center justify-center text-center">
                 <h1 class="text-4xl font-semibold text-white mb-2 drop-shadow-lg">{{ $page->title }}</h1>
