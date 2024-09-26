@@ -1,6 +1,6 @@
 <div>
-    <section
-        class="{{ $query['type'] }} {{ $page->template == 'flexy' ? 'mx-auto px-8 lg:px-0 lg:max-w-[960px]' : '' }}">
+    <section id="{{ $data['anchor'] }}"
+             class="{{ $query['type'] }} {{ $page->template == 'flexy' ? 'mx-auto px-8 lg:px-0 lg:max-w-[960px]' : '' }}">
         @if($page->template == 'home')
             <div class="py-10 overflow-hidden relative">
                 @if($this->media)

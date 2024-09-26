@@ -32,7 +32,12 @@ class Header extends Component
             foreach ($navigationGroup->components as $key => $navigation) {
                 if ($navigation['type'] == 0) {
                     $page = Page::where('id', $navigation['page'])->whereLocale('slug', $this->locale)->first();
-                    $navigationUrl['final_url'] = route('fe.page', ['slug' => $page->slug]);
+                    if ($navigation['anchor']) {
+                        $anchor = '#' . $navigation['anchor'];
+                    } else {
+                        $anchor = '';
+                    }
+                    $navigationUrl['final_url'] = route('fe.page', ['slug' => $page->slug]) . $anchor;
                 } else {
                     $navigationUrl['final_url'] = $navigation['url'];
                 }
@@ -42,11 +47,11 @@ class Header extends Component
                         if ($children['type'] == 0) {
                             $pageChild = Page::where('id', $children['page'])->whereLocale('slug', $this->locale)->first();
                             if ($children['anchor']) {
-                                $anchor = '#' . $children['anchor'];
+                                $anchorChild = '#' . $children['anchor'];
                             } else {
-                                $anchor = '';
+                                $anchorChild = '';
                             }
-                            $navigationUrlChild['final_url'] = route('fe.page', ['slug' => $pageChild->slug]) . $anchor;
+                            $navigationUrlChild['final_url'] = route('fe.page', ['slug' => $pageChild->slug]) . $anchorChild;
                         } else {
                             $navigationUrlChild['final_url'] = $children['url'];
                         }

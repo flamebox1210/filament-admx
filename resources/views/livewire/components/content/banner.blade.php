@@ -1,5 +1,5 @@
 <div>
-    <section class="{{ $query['type'] }} bg-white relative z-20">
+    <section id="{{ $data['anchor'] }}" class="{{ $query['type'] }} bg-white relative z-20">
         <div class="h-screen overflow-hidden relative">
             <div class="bg-neutral-900 opacity-50 w-screen h-screen absolute top-0 left-0 right-0 z-10"></div>
             @if($this->media)

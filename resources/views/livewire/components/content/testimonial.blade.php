@@ -1,5 +1,5 @@
 <div>
-    <section class="{{ $query['type'] }} bg-white relative z-20 py-10">
+    <section id="{{ $data['anchor'] }}" class="{{ $query['type'] }} bg-white relative z-20 py-10">
         <h1 class="text-fe-primary font-bold text-4xl leading-tight mb-10 text-center">{{ $data['title'] }}</h1>
         <div class="max-w-[1200px] mx-auto">
             <div class="swiper swiper-cards">

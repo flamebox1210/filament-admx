@@ -1,6 +1,6 @@
 <div>
-    <section
-        class="{{ $query['type'] }} {{ $page->template == 'flexy' ? 'pt-14 lg:pt-32' : '' }} bg-neutral-200 relative z-20 py-10">
+    <section id="{{ $data['anchor'] }}"
+             class="{{ $query['type'] }} {{ $page->template == 'flexy' ? 'pt-14 lg:pt-32' : '' }} bg-neutral-200 relative z-20 py-10">
         <h1 class="text-fe-primary font-bold text-4xl leading-tight mb-10 text-center">{{ $data['title'] }}</h1>
         <div
             class="{{ $page->template == 'flexy' ? 'mx-auto px-8 lg:px-0 lg:max-w-[1200px]' : 'max-w-[1920px]' }} px-5 mx-auto">

@@ -12,7 +12,7 @@
                 @endif
                 @foreach($article['components:'.app()->currentLocale()] as $key => $component)
                     @if($component['data']['is_active'])
-                        @livewire('components.content.'.$component['type'],['query' => $component, 'page' =>
+                        @livewire('components.article.'.$component['type'],['query' => $component, 'page' =>
                         $currentPage ],
                         key($key))
                     @endif
