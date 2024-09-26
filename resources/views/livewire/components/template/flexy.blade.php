@@ -11,13 +11,9 @@
                 @endif
             </div>
         </div>
-    @else
-        <div class="mt-32 mx-auto px-8 lg:px-0 lg:max-w-[960px]">
-            <h1 class="text-4xl text-fe-primary font-semibold">{{ $page->title }}</h1>
-        </div>
     @endif
     @if($page['components:'.app()->currentLocale()])
-        <div class="py-10 mx-auto px-8 lg:px-0 lg:max-w-[960px]">
+        <div class="pt-10 mx-auto">
             @foreach($page['components:'.app()->currentLocale()] as $key => $component)
                 @if($component['data']['is_active'])
                     @livewire('components.content.'.$component['type'],['query' => $component, 'page' => $page ],

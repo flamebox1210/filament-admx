@@ -1,5 +1,5 @@
 <div>
-    <section class="{{ $query['type'] }} mb-5">
+    <section class="{{ $query['type'] }} mx-auto px-8 lg:px-0 lg:max-w-[960px] mb-5">
         @if($data['type'] == 'youtube')
             <iframe width="100%" height="540" class="w-full aspect-video"
                     src="{{ $youtube }}"

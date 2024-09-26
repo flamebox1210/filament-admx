@@ -23,8 +23,11 @@ class Partner extends Component
         $this->data = $this->query['data'];
         $this->categories = PartnerCategory::orderBy('created_at')->get();
         $this->getCategory = PartnerCategory::first();
-
-        $partners = PartnerQuery::where('category_id', $this->getCategory->id)->where('is_active', 1)->orderBy('created_at')->limit(6)->get();
+        if ($this->data['type'] == 'full') {
+            $partners = PartnerQuery::where('category_id', $this->getCategory->id)->where('is_active', 1)->orderBy('created_at')->get();
+        } else {
+            $partners = PartnerQuery::where('category_id', $this->getCategory->id)->where('is_active', 1)->orderBy('created_at')->limit(6)->get();
+        }
         $setItem = [];
         foreach ($partners as $partner) {
             $media = Media::find($partner->image);
@@ -46,7 +49,11 @@ class Partner extends Component
     public function selectCategory($category)
     {
         $this->getCategory = PartnerCategory::find($category);
-        $partners = PartnerQuery::where('category_id', $category)->where('is_active', 1)->orderBy('created_at')->limit(6)->get();
+        if ($this->data['type'] == 'full') {
+            $partners = PartnerQuery::where('category_id', $category)->where('is_active', 1)->orderBy('created_at')->get();
+        } else {
+            $partners = PartnerQuery::where('category_id', $category)->where('is_active', 1)->orderBy('created_at')->limit(6)->get();
+        }
         $setItem = [];
         foreach ($partners as $partner) {
             $media = Media::find($partner->image);

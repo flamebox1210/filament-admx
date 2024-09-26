@@ -9,7 +9,7 @@ enum TemplatePage: string implements HasLabel
     case HOME = 'home';
     case FLEXY = 'flexy';
     case ARTICLE = 'articles';
-    case PARTNER = 'partner';
+    case PARTNER = 'partners';
 
     public function getLabel(): string
     {

@@ -34,6 +34,11 @@ class ComponentBuilderResource
             'youtube' => 'Youtube'
         ];
 
+        $partnerOptions = [
+            'short' => 'Short data',
+            'full' => 'All data'
+        ];
+
         return
             Forms\Components\Builder::make('components:' . $locale)
                 ->label('components')
@@ -93,6 +98,8 @@ class ComponentBuilderResource
                                     'xl' => 10,
                                 ]),
                             ]),
+
+                            Forms\Components\Select::make('type')->options($partnerOptions)->native(false),
                             Forms\Components\TextInput::make('title'),
                             Forms\Components\TextInput::make('info')
                                 ->label('')
