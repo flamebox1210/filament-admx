@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\ArticleCategory;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -21,10 +22,15 @@ class Articles extends Component
     public $categoryName;
 
     public $isSearch = false;
+
+    #[Url]
     public $search;
 
     public function mount()
     {
+        if (request('search')) {
+            $this->applySearch();
+        }
         $this->media = Media::find($this->page->image);
     }
 

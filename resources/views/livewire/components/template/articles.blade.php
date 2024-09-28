@@ -16,6 +16,9 @@
             @if($isCategory)
                 <h3 class="text-black text-md font-medium">Category : {{ $categoryName }}</h3>
             @endif
+            @if($isSearch)
+                <h3 class="text-black text-md font-medium">Search : {{ $search }}</h3>
+            @endif
         </div>
     @endif
     <div class="mx-auto px-8 lg:px-0 lg:max-w-[1200px] mb-20">

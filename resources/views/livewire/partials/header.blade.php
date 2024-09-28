@@ -8,8 +8,8 @@
                     </a>
                 </div>
                 <div class="lg:col-span-2">
-                    <div class="hidden lg:block">
-                        <ul class="flex flex-row gap-8 pt-5 justify-end">
+                    <div class="hidden lg:block" x-data="{isSearch : false}">
+                        <ul x-show="!isSearch" class="flex flex-row gap-8 pt-5 justify-end">
                             @if($navigations)
                                 @foreach($navigations as $navigation)
                                     @if($navigation['children'])
@@ -55,7 +55,7 @@
                                     @endif
                                 @endforeach
                                 <li>
-                                    <div class="cursor-pointer">
+                                    <div class="cursor-pointer" @click="isSearch = true;">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -65,6 +65,25 @@
                                 </li>
                             @endif
                         </ul>
+                        <div x-show="isSearch">
+                            <form enctype="multipart/form-data" method="get" action="{{ route('fe.page','blogs') }}">
+                                <div class="relative">
+                                    <input type="search" name="search" required
+                                           class="border border-neutral-400 w-full py-3 px-5 bg-white rounded-lg text-black placeholder:text-neutral-300 focus:border-fe-primary focus:ring-1 focus:ring-fe-primary"
+                                           placeholder="Search here..."/>
+                                    <div class="absolute right-2 top-2">
+                                        <button type="submit"
+                                                class="py-2 px-5 text-sm bg-fe-secondary hover:bg-fe-primary text-white text-center font-font-semibold uppercase rounded-md shadow-md">
+                                            Search
+                                        </button>
+                                        <button type="cancel" @click="isSearch = false"
+                                                class="py-2 px-5 text-sm bg-neutral-300 hover:bg-neutral-400 text-neutral-700 text-center font-font-semibold uppercase rounded-md shadow-md">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
