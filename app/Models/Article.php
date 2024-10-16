@@ -20,8 +20,7 @@ class Article extends Model
      */
     protected $casts = [
         'tags' => 'json',
-        'components:en' => 'json',
-        'components:id' => 'json',
+        'components' => 'json',
         'published_at' => 'datetime',
         'deleted_at' => 'datetime',
         'created_at' => 'datetime',
@@ -40,8 +39,7 @@ class Article extends Model
         'title',
         'slug',
         'content',
-        'components:en',
-        'components:id',
+        'components',
         'category_id',
         'author_id',
         'tags',
@@ -77,6 +75,11 @@ class Article extends Model
     public function files(): BelongsToMany
     {
         return $this->belongsToMany(File::class, 'article_files');
+    }
+
+    public function links(): BelongsToMany
+    {
+        return $this->belongsToMany(Link::class, 'article_links');
     }
 
     public function getActivitylogOptions(): LogOptions

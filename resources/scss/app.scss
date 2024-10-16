@@ -5,6 +5,10 @@
 @import 'cropperjs/dist/cropper.css';
 @import '../../vendor/awcodes/filament-curator/resources/css/plugin.css';
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     @apply font-sans font-light;
     font-family: Mulish;
@@ -32,7 +36,7 @@ body {
     .fi-page {
 
         .fi-form-actions {
-            @apply max-w-max z-50 p-2 shadow-sm bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800;
+            @apply max-w-max p-2 shadow-sm bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800;
 
             .fi-ac {
                 @apply mx-auto text-center justify-center;
@@ -84,7 +88,7 @@ header.fi-sidebar-header {
 }
 
 aside.fi-sidebar {
-    @apply bg-primary-600 dark:bg-primary-600 text-white;
+    @apply bg-gradient-to-r from-primary-500 from-primary-900 dark:from-primary-500 dark:to-primary-900 text-white;
     .fi-sidebar-nav {
         .fi-sidebar-group-button {
             .fi-sidebar-group-label {
@@ -143,6 +147,21 @@ aside.fi-sidebar {
 
         .fi-badge {
             @apply dark:bg-custom-50 dark:text-custom-600;
+        }
+    }
+}
+
+.fi-no-notification {
+    &.fi-status-success {
+        @apply bg-success-600 text-white #{!important};
+        .fi-no-notification-title {
+            @apply text-white #{!important};
+        }
+
+        .fi-no-notification-close-btn {
+            svg {
+                @apply fill-white;
+            }
         }
     }
 }

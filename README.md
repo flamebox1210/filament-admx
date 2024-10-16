@@ -38,8 +38,16 @@ php artisan make:filament-user
 
 ### How to Install - Part 3 Set Shield (Roles/Permission)
 
+Fresh install
+
 ```
-php artisan shield:install && php artisan shield:super-admin
+php artisan shield:install
+```
+
+Set user as super admin
+
+```
+php artisan shield:super-admin
 ```
 
 ## How to generate CRUD instant!
@@ -56,17 +64,23 @@ and then
 php artisan make:model NewModelName
 ```
 
-After migration and model setup succesfully, simply create your resource
+After migration and model setup successfully, simply create your resource
 
 ```
 php artisan make:filament-resource --simple --generate --soft-deletes
 ```
 
-each option are :
+## Cache icon (Slow browser issue)
 
-* --simple : make your crud table in simple mode using form modal
-* --generate : filament generate auto table field detect from created model before
-* --soft-deletes : enable soft delete method
+```
+php artisan icon:cache
+```
+
+Each option are :
+
+* --simple : Make your crud table in simple mode using form modal
+* --generate : Filament generate auto table field detect from created model before
+* --soft-deletes : Enable soft delete method
 
 Refresh your cms page, and you good to go, for more setup information, please
 use [filament version 3 documentation](https://filamentphp.com/docs/3.x/panels/installation)

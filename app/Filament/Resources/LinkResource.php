@@ -2,46 +2,56 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PageResource\Pages;
-use App\Filament\Resources\PageResource\RelationManagers;
-use App\Models\Page;
+use App\Filament\Resources\LinkResource\Pages;
+use App\Filament\Resources\LinkResource\RelationManagers;
+use App\Models\Link;
+use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder as DatabaseBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PageResource extends Resource
+class LinkResource extends Resource
 {
     use Translatable;
 
-    protected static ?string $model = Page::class;
+    protected static ?string $model = Link::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-square-3-stack-3d';
-    protected static ?string $navigationLabel = 'Pages';
-    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationIcon = 'heroicon-o-link';
+    protected static ?string $navigationGroup = 'Data Management';
+
+    protected static ?int $navigationSort = 4;
     protected static ?string $recordTitleAttribute = 'title';
 
-    /**
-     * @return string|null
-     */
-    public static function getNavigationBadge(): ?string
+    public static function form(Form $form): Form
     {
-        return static::getModel()::count();
+        return $form
+            ->schema([
+                Forms\Components\TextInput::make('title')->columnSpanFull(),
+                Forms\Components\TextInput::make('url')->url()->prefixIcon('heroicon-o-link')->columnSpanFull(),
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')->searchable()->sortable(),
-                Tables\Columns\ToggleColumn::make('is_default')->onColor('success')->offColor(null)->onIcon('heroicon-m-check'),
-                Tables\Columns\IconColumn::make('is_active')->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('url')->markdown()->alignCenter()
+                    ->icon('heroicon-o-link')
+                    ->formatStateUsing(fn(string $state): string => "<a target='_blank' href='{$state}'>" . __('be.button.browse') . "</a>"),
+                Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -65,39 +75,18 @@ class PageResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPages::route('/'),
-            'create' => Pages\CreatePage::route('/create'),
-            'edit' => Pages\EditPage::route('/{record}/edit'),
+            'index' => Pages\ManageLinks::route('/'),
         ];
     }
 
-    public static function getEloquentQuery(): DatabaseBuilder
+    public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    }
-
-    public static function getTranslatableLocales(): array
-    {
-        return config('app.locales');
-    }
-
-    public function saveAnother()
-    {
-        $resources = static::getResource();
-        $this->create();
-        $this->redirect($resources::getUrl('create'));
     }
 }

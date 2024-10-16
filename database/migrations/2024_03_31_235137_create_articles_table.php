@@ -18,9 +18,7 @@ return new class extends Migration {
             $table->json('slug');
             $table->json('content')->nullable();
             $table->string('image')->nullable();
-            foreach (config('app.locales') as $locale) {
-                $table->json('components:' . $locale)->nullable();
-            }
+            $table->json('components')->nullable();
             $table->bigInteger('category_id')->nullable();
             $table->bigInteger('author_id')->nullable();
             $table->text('tags')->nullable();

@@ -36,12 +36,12 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('cp')
+            ->path('administrator')
             ->defaultThemeMode(ThemeMode::Light)
-            ->favicon(asset('favicon.png'))
+            ->favicon(asset('favicon.svg'))
             ->brandName('Admin Panel')
-            ->brandLogo(asset('logo.png'))
-            ->darkModeBrandLogo(asset('logo-dark.png'))
+            ->brandLogo(asset('logo.svg'))
+            ->darkModeBrandLogo(asset('logo-dark.svg'))
             ->brandLogoHeight('2rem')
             ->login()
             //->passwordReset()
@@ -49,15 +49,15 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop(true)
             ->topbar(true)
             ->profile(isSimple: false)
-            ->font('Lato', provider: GoogleFontProvider::class)
+            ->font('Mulish', provider: GoogleFontProvider::class)
             ->viteTheme('resources/scss/app.scss')
             ->colors([
-                'danger' => Color::Red,
+                'primary' => Color::Blue,
                 'gray' => Color::Gray,
                 'info' => Color::Sky,
-                'primary' => Color::Teal,
                 'success' => Color::Emerald,
                 'warning' => Color::Yellow,
+                'danger' => Color::Red,
             ])
             ->databaseNotifications()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -127,9 +127,13 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationIcon('heroicon-o-clock')
                     ->navigationSort(3),
                 CuratorPlugin::make()
+                    ->label('Asset')
+                    ->pluralLabel('Assets')
                     ->navigationIcon('heroicon-o-photo')
                     ->navigationGroup('Data Management')
+                    ->navigationLabel('Assets')
                     ->defaultListView('grid')
+                    ->navigationCountBadge()
             ]);
     }
 }

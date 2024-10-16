@@ -6,6 +6,7 @@ use App\Filament\Resources\ComponentBuilderResource\RelationManagers;
 use App\Models\ComponentBuilder;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Get;
@@ -14,102 +15,26 @@ use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 class ComponentBuilderResource
 {
 
-    public static function defaultComponents($module, $locale)
+    public static function defaultComponents($module)
     {
-        $textImageOptions = [
-            'left' => 'Image on left',
-            'right' => 'Image on right'
-        ];
-
-        $videoOptions = [
-            'upload' => 'Upload video',
-            'youtube' => 'Youtube url'
-        ];
-
-        $socialMediaOptions = [
-            'facebook' => 'Facebook',
-            'x' => 'X',
-            'linkedin' => 'Linkedin',
-            'instagram' => 'Instagram',
-            'youtube' => 'Youtube'
-        ];
-
         $partnerOptions = [
             'short' => 'Short data',
             'full' => 'All data'
         ];
 
         return
-            Forms\Components\Builder::make('components:' . $locale)
-                ->label('components')
+            Forms\Components\Builder::make('components')
                 ->blocks([
-                    // Banner
-                    Block::make('banner')
-                        ->icon('heroicon-o-viewfinder-circle')
-                        ->columns([
-                            'sm' => 1,
-                            'xl' => 12,
-                        ])->schema([
-                            Grid::make()->columns([
-                                'sm' => 1,
-                                'xl' => 12,
-                            ])->schema([
-                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 2,
-                                ]),
-                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 10,
-                                ]),
-                            ]),
-                            Forms\Components\TextInput::make('title')->columnSpanFull(),
-                            CuratorPicker::make('image')->color('gray')
-                                ->buttonLabel('Browse')
-                                ->maxSize(5240000)
-                                ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
-                                ->nullable()->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 4,
-                                ]),
-                            Forms\Components\TextInput::make('button_label')->columnSpan([
-                                'sm' => 1,
-                                'xl' => 4,
-                            ]),
-                            Forms\Components\TextInput::make('url')->prefixIcon('heroicon-o-link')->columnSpan([
-                                'sm' => 1,
-                                'xl' => 4,
-                            ]),
-                        ]),
-                    // Partners
-                    Block::make('partner')->label('Clients')
-                        ->icon('heroicon-o-rectangle-group')
-                        ->schema([
-                            Grid::make()->columns([
-                                'sm' => 1,
-                                'xl' => 12,
-                            ])->schema([
-                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 2,
-                                ]),
-                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 10,
-                                ]),
-                            ]),
-
-                            Forms\Components\Select::make('type')->options($partnerOptions)->native(false),
-                            Forms\Components\TextInput::make('title'),
-                            Forms\Components\TextInput::make('info')
-                                ->label('')
-                                ->prefixIcon('heroicon-o-information-circle')
-                                ->placeholder(__('be.info.modular', ['attribute' => 'partners']))->readOnly()
-
-                        ]),
                     // Accordion
                     Block::make('accordion')
                         ->icon('heroicon-o-queue-list')
+                        ->label(function (?array $state): string {
+                            if ($state === null) {
+                                return 'Accordion';
+                            }
+
+                            return $state['title'] ?? 'Accordion';
+                        })
                         ->schema([
                             Grid::make()->columns([
                                 'sm' => 1,
@@ -132,95 +57,16 @@ class ComponentBuilderResource
                                 ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
                                 ->collapsible()->collapsed(),
                         ]),
-                    // Contact
-                    Block::make('contact')
-                        ->icon('heroicon-o-phone')
-                        ->schema([
-                            Grid::make()->columns([
-                                'sm' => 1,
-                                'xl' => 12,
-                            ])->schema([
-                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 2,
-                                ]),
-                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 10,
-                                ]),
-                            ]),
-                            Grid::make()->columns([
-                                'sm' => 1,
-                                'xl' => 12,
-                            ])->schema([
-                                Forms\Components\TextInput::make('title')->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 6,
-                                ]),
-                                Forms\Components\TextInput::make('subtitle')->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 6,
-                                ]),
-                            ]),
-                            Grid::make()->schema([
-                                Grid::make()->schema([
-                                    Forms\Components\Repeater::make('social_media')->columnSpanFull()
-                                        ->schema([
-                                            Grid::make()->schema([
-                                                Forms\Components\Select::make('site')->options($socialMediaOptions)->native(false)->columnSpan([
-                                                    'sm' => 1,
-                                                    'xl' => 6,
-                                                ]),
-                                                Forms\Components\TextInput::make('url')->prefixIcon('heroicon-o-link')->columnSpan([
-                                                    'sm' => 1,
-                                                    'xl' => 6,
-                                                ]),
-                                            ])
-                                        ])->itemLabel(fn(array $state): ?string => $state['site'] ?? null)
-                                        ->collapsible()->collapsed(),
-                                ])->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 4,
-                                ]),
-                                Grid::make()->schema([
-                                    Forms\Components\Repeater::make('phones')->columnSpanFull()
-                                        ->schema([
-                                            Grid::make()->schema([
-                                                Forms\Components\TextInput::make('phone')->columnSpanFull(),
-                                            ])->columns([
-                                                'sm' => 1,
-                                                'xl' => 12,
-                                            ])
-                                        ])->itemLabel(fn(array $state): ?string => $state['phone'] ?? null)
-                                        ->collapsible()->collapsed(),
-                                ])->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 4,
-                                ]),
-                                Grid::make()->schema([
-                                    Forms\Components\Repeater::make('emails')->columnSpanFull()
-                                        ->schema([
-                                            Grid::make()->schema([
-                                                Forms\Components\TextInput::make('email')->columnSpanFull(),
-                                            ])->columns([
-                                                'sm' => 1,
-                                                'xl' => 12,
-                                            ])
-                                        ])->itemLabel(fn(array $state): ?string => $state['email'] ?? null)
-                                        ->collapsible()->collapsed(),
-                                ])->columnSpan([
-                                    'sm' => 1,
-                                    'xl' => 4,
-                                ]),
-                                Forms\Components\Textarea::make('embed')->label('Embed maps')->autosize()->columnSpanFull(),
-                            ])->columns([
-                                'sm' => 1,
-                                'xl' => 12,
-                            ]),
-                        ]),
                     // Carousel
-                    Block::make('carousel')->label('Services')
+                    Block::make('carousel')
                         ->icon('heroicon-o-swatch')
+                        ->label(function (?array $state): string {
+                            if ($state === null) {
+                                return 'Carousel';
+                            }
+
+                            return $state['title'] ?? 'Carousel';
+                        })
                         ->schema([
                             Grid::make()->columns([
                                 'sm' => 1,
@@ -285,9 +131,48 @@ class ComponentBuilderResource
                                 ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
                                 ->collapsible()->collapsed(),
                         ]),
-                    // Testimonial
-                    Block::make('testimonial')->label('Testimonials')
+                    // Partners
+                    Block::make('partner')->label('Partners')
+                        ->icon('heroicon-o-rectangle-group')
+                        ->label(function (?array $state): string {
+                            if ($state === null) {
+                                return 'Partners';
+                            }
+
+                            return $state['title'] ?? 'Partners';
+                        })
+                        ->schema([
+                            Grid::make()->columns([
+                                'sm' => 1,
+                                'xl' => 12,
+                            ])->schema([
+                                Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->label(null)->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 2,
+                                ]),
+                                Forms\Components\TextInput::make('anchor')->prefix('#')->columnSpan([
+                                    'sm' => 1,
+                                    'xl' => 10,
+                                ]),
+                            ]),
+                            Forms\Components\Select::make('type')->options($partnerOptions)->native(false),
+                            Forms\Components\TextInput::make('title'),
+                            Forms\Components\TextInput::make('info')
+                                ->label('')
+                                ->prefixIcon('heroicon-o-information-circle')
+                                ->placeholder(__('be.info.modular', ['attribute' => 'partners']))->readOnly()
+
+                        ]),
+                    // Testimonials
+                    Block::make('testimonials')
                         ->icon('heroicon-o-speaker-wave')
+                        ->label(function (?array $state): string {
+                            if ($state === null) {
+                                return 'Testimonials';
+                            }
+
+                            return $state['title'] ?? 'Testimonials';
+                        })
                         ->schema([
                             Grid::make()->columns([
                                 'sm' => 1,
@@ -331,30 +216,60 @@ class ComponentBuilderResource
                                                     'sm' => 1,
                                                     'xl' => 12,
                                                 ])->schema([
-                                                    Forms\Components\TextInput::make('title')->columnSpan([
+                                                    Forms\Components\TextInput::make('name')->columnSpan([
+                                                        'sm' => 1,
+                                                        'xl' => 6,
+                                                    ]),
+                                                    Forms\Components\TextInput::make('position')->columnSpan([
+                                                        'sm' => 1,
+                                                        'xl' => 6,
+                                                    ]),
+                                                    Forms\Components\Textarea::make('content')->autosize()->columnSpan([
                                                         'sm' => 1,
                                                         'xl' => 12,
-                                                    ]),
-                                                    Forms\Components\TextInput::make('youtube_url')->url()
-                                                        ->prefixIcon('heroicon-o-link')
-                                                        ->placeholder('https://www.youtube.com/watch?v=[YOUR_YOUTUBE_ID]')
-                                                        ->nullable()->columnSpan([
-                                                            'sm' => 1,
-                                                            'xl' => 12,
-                                                        ]),
-                                                    Forms\Components\ViewField::make('youtube_url')
-                                                        ->view('filament.forms.components.youtube-preview')->columnSpan([
-                                                            'sm' => 1,
-                                                            'xl' => 12,
-                                                        ]),
+                                                    ])
                                                 ]),
                                         ])
                                 ])->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
                                 ->collapsible()->collapsed(),
                         ]),
+                ])->columnSpan([
+                    'sm' => 1,
+                    'xl' => 12,
+                ])
+                ->deleteAction(
+                    fn(Action $action) => $action->requiresConfirmation(),
+                )
+                ->collapsible()->collapsed()->cloneable()->blockIcons(true)
+                ->blockNumbers(false);
+    }
+
+
+    public static function flexyComponents($module)
+    {
+        $textImageOptions = [
+            'left' => 'Image on left',
+            'right' => 'Image on right'
+        ];
+
+        $videoOptions = [
+            'upload' => 'Upload video',
+            'youtube' => 'Youtube url'
+        ];
+
+        return
+            Forms\Components\Builder::make('components')
+                ->blocks([
                     // Paragraph
                     Block::make('paragraph')
                         ->icon('heroicon-c-bars-4')
+                        ->label(function (?array $state): string {
+                            if ($state === null) {
+                                return 'Paragraph';
+                            }
+
+                            return $state['title'] ?? 'Paragraph';
+                        })
                         ->schema([
                             Grid::make()->columns([
                                 'sm' => 1,
@@ -369,12 +284,20 @@ class ComponentBuilderResource
                                     'xl' => 10,
                                 ]),
                             ]),
+                            Forms\Components\TextInput::make('title')->columnSpanFull(),
                             TinyEditor::make('content')
                                 ->profile('simple')->language(app()->getLocale())->nullable(),
                         ]),
                     // Text & Image
                     Block::make('text_image')
                         ->icon('heroicon-c-clipboard-document-list')
+                        ->label(function (?array $state): string {
+                            if ($state === null) {
+                                return 'Text & image';
+                            }
+
+                            return $state['title'] ?? 'Text & image';
+                        })
                         ->columns([
                             'sm' => 1,
                             'xl' => 12,
@@ -392,6 +315,7 @@ class ComponentBuilderResource
                                     'xl' => 10,
                                 ]),
                             ]),
+                            Forms\Components\TextInput::make('title')->columnSpanFull(),
                             Grid::make()->schema([
                                 CuratorPicker::make('image')->color('gray')
                                     ->buttonLabel('Browse')
@@ -434,9 +358,16 @@ class ComponentBuilderResource
                                     'xl' => 8,
                                 ]),
                         ]),
-                    // Video Banner
-                    Block::make('video_banner')
+                    // Video
+                    Block::make('video')
                         ->icon('heroicon-o-video-camera')
+                        ->label(function (?array $state): string {
+                            if ($state === null) {
+                                return 'Video';
+                            }
+
+                            return $state['title'] ?? 'Video';
+                        })
                         ->columns([
                             'sm' => 1,
                             'xl' => 12,
@@ -455,6 +386,7 @@ class ComponentBuilderResource
                                     'xl' => 10,
                                 ]),
                             ]),
+                            Forms\Components\TextInput::make('title')->columnSpanFull(),
                             Forms\Components\Radio::make('type')->inline()->label(false)->options($videoOptions)
                                 ->reactive()
                                 ->columnSpan([
@@ -487,10 +419,15 @@ class ComponentBuilderResource
                 ])->columnSpan([
                     'sm' => 1,
                     'xl' => 12,
-                ])->collapsible()->collapsed()->cloneable();
+                ])
+                ->deleteAction(
+                    fn(Action $action) => $action->requiresConfirmation(),
+                )
+                ->collapsible()->collapsed()->cloneable()->blockIcons(true)
+                ->blockNumbers(false);
     }
 
-    public static function articleComponents($module, $locale)
+    public static function articleComponents($module)
     {
 
         $videoOptions = [
@@ -499,22 +436,37 @@ class ComponentBuilderResource
         ];
 
         return
-            Forms\Components\Builder::make('components:' . $locale)
-                ->label('Content')
+            Forms\Components\Builder::make('components')
                 ->blocks([
                     // Paragraph
                     Block::make('paragraph')
                         ->icon('heroicon-c-bars-4')
+                        ->label(function (?array $state): string {
+                            if ($state === null) {
+                                return 'Paragraph';
+                            }
+
+                            return $state['title'] ?? 'Paragraph';
+                        })
                         ->schema([
                             Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
+                            Forms\Components\TextInput::make('title')->columnSpanFull(),
                             TinyEditor::make('content')
                                 ->profile('simple')->language(app()->getLocale())->nullable(),
                         ]),
                     // Image
                     Block::make('image')
                         ->icon('heroicon-o-photo')
+                        ->label(function (?array $state): string {
+                            if ($state === null) {
+                                return 'Image';
+                            }
+
+                            return $state['title'] ?? 'Image';
+                        })
                         ->schema([
                             Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check'),
+                            Forms\Components\TextInput::make('title')->columnSpanFull(),
                             CuratorPicker::make('image')->color('gray')
                                 ->buttonLabel('Browse')
                                 ->maxSize(5240000)
@@ -524,6 +476,13 @@ class ComponentBuilderResource
                     // Video
                     Block::make('video')
                         ->icon('heroicon-o-video-camera')
+                        ->label(function (?array $state): string {
+                            if ($state === null) {
+                                return 'Video';
+                            }
+
+                            return $state['title'] ?? 'Video';
+                        })
                         ->columns([
                             'sm' => 1,
                             'xl' => 12,
@@ -539,6 +498,7 @@ class ComponentBuilderResource
                                     'sm' => 1,
                                     'xl' => 8,
                                 ]),
+                            Forms\Components\TextInput::make('title')->columnSpanFull(),
                             Forms\Components\TextInput::make('youtube_url')->url()
                                 ->prefixIcon('heroicon-o-link')
                                 ->hidden(fn(Get $get) => $get('type') !== 'youtube')
@@ -558,11 +518,19 @@ class ComponentBuilderResource
                     // Quote
                     Block::make('quote')
                         ->icon('heroicon-o-chat-bubble-oval-left')
+                        ->label(function (?array $state): string {
+                            if ($state === null) {
+                                return 'Quote';
+                            }
+
+                            return 'Quote | ' . $state['title'] ?? 'Quote';
+                        })
                         ->schema([
                             Forms\Components\Toggle::make('is_active')->onColor('success')->offColor(null)->onIcon('heroicon-o-check')->columnSpan([
                                 'sm' => 1,
                                 'xl' => 12,
                             ]),
+                            Forms\Components\TextInput::make('title')->columnSpanFull(),
                             Forms\Components\TextInput::make('name')->columnSpan([
                                 'sm' => 1,
                                 'xl' => 6,
@@ -582,6 +550,9 @@ class ComponentBuilderResource
                 ])->columnSpan([
                     'sm' => 1,
                     'xl' => 12,
-                ])->collapsible()->collapsed()->cloneable();
+                ])
+                ->deleteAction(
+                    fn(Action $action) => $action->requiresConfirmation(),
+                )->collapsible()->collapsed()->cloneable();
     }
 }

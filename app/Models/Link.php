@@ -4,18 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
 
-class Page extends Model
+class Link extends Model
 {
-    use HasFactory, SoftDeletes, HasTranslations;
+    use HasFactory, SoftDeletes, HasTranslations, LogsActivity;
 
-    /**
-     * @var string[]
-     */
     protected $casts = [
-        'components' => 'json',
         'deleted_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -27,26 +26,24 @@ class Page extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'is_default',
-        'is_active',
-        'template',
-        'image',
         'title',
-        'slug',
-        'content',
-        'components',
+        'url',
     ];
-
     /**
      * @var string[]
      */
     protected $translatable = [
         'title',
-        'slug',
-        'content',
-        'meta_title',
-        'meta_description'
     ];
 
+    public function articles(): BelongsToMany
+    {
+        return $this->belongsToMany(Article::class, 'article_links');
+    }
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['title', 'url', 'created_at']);
+    }
 }

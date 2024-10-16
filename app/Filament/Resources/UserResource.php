@@ -32,7 +32,7 @@ class UserResource extends Resource
 
         return $form
             ->schema([
-                Section::make()->description('Lacus interdum curabitur habitasse purus odio semper faucibus finibus')->aside()->columns([
+                Section::make()->columns([
                     'sm' => 1,
                     'xl' => 12,
                 ])->schema([
@@ -56,7 +56,7 @@ class UserResource extends Resource
                             'xl' => 12,
                         ]),
                 ]),
-                Section::make()->description('Lacus interdum curabitur habitasse purus odio semper faucibus finibus')->aside()->columns([
+                Section::make()->columns([
                     'sm' => 1,
                     'xl' => 12,
                 ])->schema([
@@ -66,13 +66,8 @@ class UserResource extends Resource
                         ->dehydrated(fn($state) => filled($state))
                         ->columnSpan([
                             'sm' => 1,
-                            'xl' => 12,
+                            'xl' => 6,
                         ]),
-                ]),
-                Section::make()->description('Lacus interdum curabitur habitasse purus odio semper faucibus finibus')->aside()->columns([
-                    'sm' => 1,
-                    'xl' => 12,
-                ])->schema([
                     Forms\Components\Select::make('roles')
                         ->relationship('roles', 'name')
                         ->multiple()
@@ -81,7 +76,7 @@ class UserResource extends Resource
                         ->native(false)
                         ->columnSpan([
                             'sm' => 1,
-                            'xl' => 12,
+                            'xl' => 6,
                         ]),
                 ]),
             ]);

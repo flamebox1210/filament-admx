@@ -1,0 +1,120 @@
+@import 'cropperjs/dist/cropper.css';
+@import '../../vendor/awcodes/filament-curator/resources/css/plugin.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply font-sans font-light;
+  font-family: Mulish;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-200;
+  border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-500;
+  border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-600;
+}
+
+.fi-panel-admin .fi-page .fi-form-actions {
+  @apply max-w-max p-2 shadow-sm bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800;
+}
+.fi-panel-admin .fi-page .fi-form-actions .fi-ac {
+  @apply mx-auto text-center justify-center;
+}
+
+.tox.tox-tinymce {
+  @apply dark:border-2 dark:border-white/10 rounded-md overflow-hidden;
+}
+.tox .tox-dialog__header, .tox .tox-dialog__footer {
+  @apply dark:bg-neutral-600;
+}
+.tox .tox-listboxfield .tox-listbox--select, .tox .tox-textarea, .tox .tox-textfield, .tox .tox-toolbar-textfield {
+  @apply dark:bg-neutral-700;
+}
+.tox .tox-dialog {
+  @apply dark:bg-neutral-600 dark:border-neutral-600;
+}
+.tox .tox-editor-container,
+.tox .tox-menubar,
+.tox .tox-toolbar-overlord,
+.tox .tox-toolbar__primary,
+.tox .tox-statusbar {
+  @apply dark:bg-white/5 dark:border-white/10;
+}
+.tox .tox-toolbar__primary {
+  @apply dark:border-b-white/10 dark:bg-transparent;
+}
+header.fi-sidebar-header svg {
+  @apply dark:text-white;
+}
+
+aside.fi-sidebar {
+  @apply bg-gradient-to-r from-primary-500 from-primary-900 dark:from-primary-500 dark:to-primary-900 text-white;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-sidebar-group-button .fi-sidebar-group-label {
+  @apply text-gray-200;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-sidebar-group-button svg {
+  @apply text-gray-200;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-sidebar-item:not(.fi-active) .fi-sidebar-item-label {
+  @apply text-white;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-sidebar-item:not(.fi-active) svg {
+  @apply text-white;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-sidebar-item:not(.fi-active):hover .fi-sidebar-item-button {
+  @apply dark:bg-gray-100;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-sidebar-item:not(.fi-active):hover .fi-sidebar-item-label {
+  @apply text-primary-600 dark:text-primary-600 !important;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-sidebar-item:not(.fi-active):hover svg {
+  @apply text-primary-600 dark:text-primary-600 !important;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-sidebar-item.fi-active .fi-sidebar-item-label {
+  @apply text-primary-600 dark:text-primary-600 !important;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-sidebar-item.fi-active .fi-sidebar-item-button {
+  @apply dark:bg-gray-100 dark:text-primary-600;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-sidebar-item.fi-active svg {
+  @apply text-primary-600 dark:text-primary-600 !important;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-icon-btn svg {
+  @apply fill-white;
+}
+aside.fi-sidebar .fi-sidebar-nav .fi-badge {
+  @apply dark:bg-custom-50 dark:text-custom-600;
+}
+
+.fi-no-notification.fi-status-success {
+  @apply bg-success-600 text-white !important;
+}
+.fi-no-notification.fi-status-success .fi-no-notification-title {
+  @apply text-white !important;
+}
+.fi-no-notification.fi-status-success .fi-no-notification-close-btn svg {
+  @apply fill-white;
+}
+
+.curator-media-picker .fi-ac-btn-action {
+  @apply block w-full !important;
+}
+
+/*# sourceMappingURL=app.css.map */

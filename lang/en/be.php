@@ -17,6 +17,7 @@ return [
         'create' => 'Create',
         'edit' => 'Edit',
         'download' => 'Download',
+        'browse' => 'Browse',
     ],
     'info' => [
         'modular' => 'Go to :attribute data to setup the data'

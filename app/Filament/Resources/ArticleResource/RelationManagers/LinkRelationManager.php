@@ -7,38 +7,33 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Storage;
 
-class FilesRelationManager extends RelationManager
+class LinksRelationManager extends RelationManager
 {
-    protected static string $relationship = 'files';
+    protected static string $relationship = 'links';
 
-    protected static ?string $title = 'Related Files';
+    protected static ?string $title = 'Related Links';
 
     public function form(Form $form): Form
     {
-        $module = 'files';
+        $module = 'links';
 
         return $form
             ->schema([
-                Forms\Components\TextInput::make('filename')->columnSpanFull(),
-                Forms\Components\FileUpload::make('file')
-                    ->required()->maxSize(5240000)->directory($module)
-                    ->preserveFilenames()
-                    ->acceptedFileTypes(['application/pdf'])
-                    ->downloadable()->columnSpanFull(),
+                Forms\Components\TextInput::make('title')->columnSpanFull(),
+                Forms\Components\TextInput::make('url')->url()->prefixIcon('heroicon-o-link')->columnSpanFull(),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('filename')
+            ->recordTitleAttribute('title')
             ->columns([
-                Tables\Columns\TextColumn::make('filename'),
-                Tables\Columns\TextColumn::make('file')->markdown()->alignCenter()
+                Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('url')->markdown()->alignCenter()
                     ->icon('heroicon-o-link')
-                    ->formatStateUsing(fn(string $state): string => "<a target='_blank' href='" . Storage::disk('public')->url($state) . "'>" . __('be.button.download') . "</a>"),
+                    ->formatStateUsing(fn(string $state): string => "<a target='_blank' href='{$state}'>" . __('be.button.browse') . "</a>"),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

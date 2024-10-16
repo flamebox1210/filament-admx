@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Filament\Resources\ArticleResource\RelationManagers\ArticleCategoriesRelationManager;
 use App\Filament\Resources\KnowledgeResource\RelationManagers\FilesRelationManager;
+use App\Filament\Resources\KnowledgeResource\RelationManagers\LinksRelationManager;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\Author;
@@ -161,12 +162,7 @@ class ArticleResource extends Resource
                 'xl' => 4,
             ]),
             // Components
-
-            // Components
-            ComponentBuilderResource::articleComponents($module, 'en')
-                ->hidden(fn(Get $get) => $get('../activeLocale') == 'id'),
-            ComponentBuilderResource::articleComponents($module, 'id')
-                ->hidden(fn(Get $get) => $get('../activeLocale') == 'en'),
+            ComponentBuilderResource::articleComponents($module)->label('Content'),
             // Status
             Fieldset::make()->columns([
                 'sm' => 1,
@@ -213,6 +209,7 @@ class ArticleResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('published_at', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
                 SelectFilter::make('category_id')
@@ -243,7 +240,8 @@ class ArticleResource extends Resource
     public static function getRelations(): array
     {
         return [
-            FilesRelationManager::class
+            FilesRelationManager::class,
+            LinksRelationManager::class
         ];
     }
 
