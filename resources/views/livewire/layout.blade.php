@@ -27,7 +27,7 @@
               content="{{ $media ?  $media->media_path : __('img/meta-image.jpg') }}">
     @else
         <meta property="og:image"
-              content="{{ asset('logo.png') }}">
+              content="{{ asset('img/meta-image.svg') }}">
     @endif
 
     {{-- Twitter --}}
@@ -41,19 +41,19 @@
               content="{{ $media ?  $media->media_path : __('img/meta-image.jpg') }}">
     @else
         <meta property="twitter:image"
-              content="{{ asset('logo.png') }}">
+              content="{{ asset('img/meta-image.png') }}">
     @endif
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url('favicon.png') }}"/>
-    <link rel="icon" href="{{ url('favicon-192x192.png') }}" sizes="192x192"/>
-    <link rel="apple-touch-icon" href="{{ url('favicon-180x180.png') }}" sizes="180x180"/>
+    <link rel="icon" type="image/x-icon" href="{{ url('favicon.svg') }}"/>
+    <link rel="icon" href="{{ url('favicon.svg') }}" sizes="192x192"/>
+    <link rel="apple-touch-icon" href="{{ url('favicon.svg') }}" sizes="180x180"/>
 
     @vite(['resources/scss/fe/app.scss','resources/js/app.js'])
     @stack('top.script')
 </head>
 
-<body class="body-{{ $page->template }}" id="body">
+<body class="body-{{ $page->template }} font-sans antialiased" id="body">
 <livewire:partials.header/>
 <div>
     {{ $slot }}

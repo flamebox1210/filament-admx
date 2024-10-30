@@ -4,10 +4,12 @@ namespace App\Livewire\Components\Content;
 
 use Awcodes\Curator\Models\Media;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class Carousel extends Component
 {
+    public $id;
     public $page;
     public $query;
     public $data;
@@ -15,6 +17,7 @@ class Carousel extends Component
 
     public function mount()
     {
+        $this->id = Str::uuid()->toString();
         $this->data = $this->query['data'];
 
         $setItem = [];
@@ -26,8 +29,10 @@ class Carousel extends Component
                 $image['image_path'] = null;
             }
             $merge = array_merge($image, $item);
+
             $setItem[] = $merge;
         }
+
         $this->items = $setItem;
     }
 

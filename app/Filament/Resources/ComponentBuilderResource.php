@@ -110,9 +110,13 @@ class ComponentBuilderResource
                                                     'sm' => 1,
                                                     'xl' => 12,
                                                 ])->schema([
+                                                    Forms\Components\TextInput::make('subtitle')->columnSpan([
+                                                        'sm' => 1,
+                                                        'xl' => 6,
+                                                    ]),
                                                     Forms\Components\TextInput::make('title')->columnSpan([
                                                         'sm' => 1,
-                                                        'xl' => 12,
+                                                        'xl' => 6,
                                                     ]),
                                                     Forms\Components\Textarea::make('content')->autosize()->columnSpan([
                                                         'sm' => 1,
@@ -123,6 +127,14 @@ class ComponentBuilderResource
                                                         'xl' => 6,
                                                     ]),
                                                     Forms\Components\TextInput::make('url')->prefixIcon('heroicon-o-link')->columnSpan([
+                                                        'sm' => 1,
+                                                        'xl' => 6,
+                                                    ]),
+                                                    Forms\Components\TextInput::make('button_label_secondary')->columnSpan([
+                                                        'sm' => 1,
+                                                        'xl' => 6,
+                                                    ]),
+                                                    Forms\Components\TextInput::make('url_secondary')->prefixIcon('heroicon-o-link')->columnSpan([
                                                         'sm' => 1,
                                                         'xl' => 6,
                                                     ]),

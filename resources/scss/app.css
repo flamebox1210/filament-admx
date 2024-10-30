@@ -9,7 +9,7 @@ html {
 
 body {
   @apply font-sans font-light;
-  font-family: Mulish;
+  font-family: "Mulish";
 }
 
 ::-webkit-scrollbar {
@@ -64,7 +64,7 @@ header.fi-sidebar-header svg {
 }
 
 aside.fi-sidebar {
-  @apply bg-gradient-to-r from-primary-500 from-primary-900 dark:from-primary-500 dark:to-primary-900 text-white;
+  @apply bg-gradient-to-b from-primary-700 to-primary-900 text-white;
 }
 aside.fi-sidebar .fi-sidebar-nav .fi-sidebar-group-button .fi-sidebar-group-label {
   @apply text-gray-200;

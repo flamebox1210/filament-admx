@@ -56,6 +56,7 @@ class EditPage extends EditRecord
                                 }),
                             TinyEditor::make('content')
                                 ->label(trans('be.form.excerpt.label'))
+                                ->hidden(fn(Get $get) => $get('template') == TemplatePage::HOME->value)
                                 ->profile('simple')->language(app()->getLocale())->nullable(),
                         ]),
                     Tabs\Tab::make('Meta')
@@ -72,6 +73,7 @@ class EditPage extends EditRecord
                 ->schema([
                     Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true)->columnSpanFull(),
                     CuratorPicker::make('image')->color('gray')
+                        ->hidden(fn(Get $get) => $get('template') == TemplatePage::HOME->value)
                         ->buttonLabel('Browse')
                         ->maxSize(5240000)
                         ->directory($module)->acceptedFileTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])

@@ -32,12 +32,16 @@ class Header extends Component
             foreach ($navigationGroup->components as $key => $navigation) {
                 if ($navigation['type'] == 0) {
                     $page = Page::where('id', $navigation['page'])->whereLocale('slug', $this->locale)->first();
-                    if ($navigation['anchor']) {
-                        $anchor = '#' . $navigation['anchor'];
+                    if ($page) {
+                        if ($navigation['anchor']) {
+                            $anchor = '#' . $navigation['anchor'];
+                        } else {
+                            $anchor = '';
+                        }
+                        $navigationUrl['final_url'] = route('fe.page', ['slug' => $page->slug]) . $anchor;
                     } else {
-                        $anchor = '';
+                        $navigationUrl['final_url'] = null;
                     }
-                    $navigationUrl['final_url'] = route('fe.page', ['slug' => $page->slug]) . $anchor;
                 } else {
                     $navigationUrl['final_url'] = $navigation['url'];
                 }
@@ -46,14 +50,18 @@ class Header extends Component
                     foreach ($navigation['children'] as $children) {
                         if ($children['type'] == 0) {
                             $pageChild = Page::where('id', $children['page'])->whereLocale('slug', $this->locale)->first();
-                            if ($children['anchor']) {
-                                $anchorChild = '#' . $children['anchor'];
+                            if ($pageChild) {
+                                if ($children['anchor']) {
+                                    $anchorChild = '#' . $children['anchor'];
+                                } else {
+                                    $anchorChild = '';
+                                }
+                                $navigationUrlChild['final_url'] = route('fe.page', ['slug' => $pageChild->slug]) . $anchorChild;
                             } else {
-                                $anchorChild = '';
+                                $navigationUrlChild['final_url'] = $children['url'];
                             }
-                            $navigationUrlChild['final_url'] = route('fe.page', ['slug' => $pageChild->slug]) . $anchorChild;
                         } else {
-                            $navigationUrlChild['final_url'] = $children['url'];
+                            $navigationUrlChild['final_url'] = null;
                         }
                         $navigationMergeChild = array_merge($navigationUrlChild, $children);
                         $navigationItemChild[] = $navigationMergeChild;

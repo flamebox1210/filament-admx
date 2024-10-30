@@ -48,11 +48,11 @@ class AdminPanelProvider extends PanelProvider
             //->topNavigation()
             ->sidebarCollapsibleOnDesktop(true)
             ->topbar(true)
-            ->profile(isSimple: false)
+            ->profile(isSimple: true)
             ->font('Mulish', provider: GoogleFontProvider::class)
             ->viteTheme('resources/scss/app.scss')
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Purple,
                 'gray' => Color::Gray,
                 'info' => Color::Sky,
                 'success' => Color::Emerald,
@@ -66,6 +66,7 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->databaseNotifications()
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
@@ -89,18 +90,7 @@ class AdminPanelProvider extends PanelProvider
             */
             ->userMenuItems([
                 'profile' => MenuItem::make()->label('Edit profile'),
-                /* 'language' => MenuItem::make()
-                     ->label('Switch language')
-                     ->url(fn(): string => route('filament.admin.language.switch',
-                         session('locale') ? session('locale') : 'en'
-                     )),*/
             ])
-            /* ->userMenuItems([
-                 MenuItem::make()
-                     ->label('Users')
-                     ->url('/admin/users')
-                     ->icon('heroicon-o-users'),
-             ])*/
             /*
             * plugins
             */

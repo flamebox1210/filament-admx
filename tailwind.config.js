@@ -25,8 +25,9 @@ export default {
             colors: {
                 transparent: "transparent",
                 current: "currentColor",
-                "fe-primary": "#3873B9",
-                "fe-secondary": "#4CC1E7",
+                "fe-primary": 'rgb(168, 85, 247)',
+                "fe-secondary": 'rgb(107, 114, 128)',
+                "fe-info": 'rgb(14, 165, 233)',
             },
         },
         container: {

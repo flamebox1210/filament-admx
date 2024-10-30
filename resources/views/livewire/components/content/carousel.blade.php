@@ -1,29 +1,47 @@
-<div>
-    <section id="{{ $data['anchor'] }}" class="{{ $query['type'] }} bg-neutral-200 relative z-20 py-10">
-        <h1 class="text-fe-primary font-bold text-4xl leading-tight mb-10 text-center">{{ $data['title'] }}</h1>
-        <div class="max-w-[1200px] mx-auto">
-            <div class="lg:grid lg:grid-cols-3 lg:gap-6">
-                @foreach($items as $item)
-                    <div class="text-center relative mb-10 lg:mb-5">
-                        <div class="mb-4">
-                            <img src="{{ $item['image_path'] }}" class="max-w-20 rounded-full mx-auto"
-                                 alt="{{ $item['title'] }}"/>
-                        </div>
-                        <div class="mb-5 lg:mb-20 px-8 lg:px-0">
-                            <div class="lg:max-w-60 mx-auto">
-                                <h3 class="font-semibold text-lg text-fe-secondary mb-3 mx-auto">{{ $item['title'] }}</h3>
+<div wire:id="{{ $id }}">
+    <section id="{{ $data['anchor'] }}" class="{{ $query['type'] }}">
+        <div class="swiper swiper-carousel">
+            <div class="swiper-wrapper bg-black">
+                @foreach($items as $key => $item)
+                    <div class="swiper-slide h-screen w-full">
+                        <div>
+                            <div
+                                class="max-w-[90%] lg:max-w-[50%] absolute lg:top-72 lg:left-32 text-center lg:text-left">
+                                <div class="relative z-20">
+                                    <div>
+                                        <h5 class="mx-auto text-md tracking-wider font-semibold text-black uppercase mb-5">{{ $item['subtitle'] }}</h5>
+                                        <h1 class="mx-auto text-4xl lg:text-7xl font-light text-white mb-5">{{ $item['title'] }}</h1>
+                                        <p class=" w-full text-lg text-neutral-300">{{ $item['content'] }}</p>
+                                    </div>
+                                    <div class="flex gap-4 items-center">
+                                        @if($item['button_label'])
+                                            <div class="mt-10">
+                                                <livewire:components.ui.button type="url"
+                                                                               label="{{ $item['button_label'] }}"
+                                                                               url="{{ $item['url'] }}"
+                                                                               target="_blank"/>
+                                            </div>
+                                        @endif
+                                        @if($item['button_label_secondary'])
+                                            <div class="mt-10">
+                                                <livewire:components.ui.button type="url"
+                                                                               label="{{ $item['button_label_secondary'] }}"
+                                                                               url="{{ $item['url_secondary'] }}"
+                                                                               target="_blank"/>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
-                            <p>{{ $item['content'] }}</p>
+                            <div
+                                class="bg-gradient-to-t from-black/75 to-transparent absolute left-0 right-0 bottom-0 z-0 h-screen w-full"></div>
+                            <img class="w-full object-cover h-screen" src="{{ $item['image_path'] }}"/>
                         </div>
-                        @if($item['url'])
-                            <div class="max-w-[150px] mx-auto lg:absolute lg:bottom-0 lg:left-0 lg:right-0">
-                                <a class="block transition duration-200 py-2 px-3 text-sm bg-neutral-900 hover:bg-neutral-700 scale-100 hover:scale-[1.1] text-white text-center font-font-semibold uppercase rounded-md shadow-md"
-                                   href="{{ $item['url'] }}">{{ $item['button_label'] }}</a>
-                            </div>
-                        @endif
                     </div>
                 @endforeach
             </div>
+            <!-- pagination -->
+            <div class="swiper-pagination"></div>
         </div>
     </section>
 </div>

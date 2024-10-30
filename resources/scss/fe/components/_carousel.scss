@@ -1,0 +1,17 @@
+.swiper {
+    @apply h-screen w-full;
+
+    .swiper-button-prev, .swiper-button-next {
+        @apply absolute block top-[50%];
+    }
+
+    .swiper-pagination {
+        @apply gap-1 items-center flex mx-auto max-w-max left-0 right-0 mb-8;
+        .swiper-pagination-bullet {
+            @apply p-1.5;
+            &.swiper-pagination-bullet-active {
+                @apply bg-transparent border-2 border-double border-fe-primary;
+            }
+        }
+    }
+}

@@ -5,7 +5,7 @@ namespace App\Livewire\Components\Content;
 use Awcodes\Curator\Models\Media;
 use Livewire\Component;
 
-class TextImage extends Component
+class   TextImage extends Component
 {
     public $page;
     public $query;

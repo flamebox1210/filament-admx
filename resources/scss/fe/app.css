@@ -1,6 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.swiper {
+  @apply h-screen w-full;
+}
+.swiper .swiper-button-prev, .swiper .swiper-button-next {
+  @apply absolute block top-[50%];
+}
+.swiper .swiper-pagination {
+  @apply gap-1 items-center flex mx-auto max-w-max left-0 right-0 mb-8;
+}
+.swiper .swiper-pagination .swiper-pagination-bullet {
+  @apply p-1.5;
+}
+.swiper .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+  @apply bg-transparent border-2 border-double border-fe-primary;
+}
+
+body {
+  font-family: "Mulish", sans-serif;
+  font-optical-sizing: auto;
+}
 body.body-articles {
   @apply bg-neutral-200;
 }
